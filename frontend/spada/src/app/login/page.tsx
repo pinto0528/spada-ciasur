@@ -1,13 +1,15 @@
-import styles from "../../styles/page.module.css";
+import { FC } from 'react';
+import BackButton from '../../components/backbutton';
+import contentstyles from '../../styles/content.module.css'
 
-export default function Home() {
+const DashboardPage: FC = () => {
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Login Page
-        </p>
-      </div>
+    <main className={contentstyles.content}>
+      <h1>Login Page</h1>
+      {/* Aquí puedes agregar gráficas y estadísticas */}
+      <BackButton />
     </main>
   );
-}
+};
+
+export default DashboardPage;
