@@ -1,5 +1,6 @@
 import contentstyles from '../../styles/content.module.css'
 
+
 export default function RootLayout({
   children,
 }: {

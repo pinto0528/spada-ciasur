@@ -1,6 +1,10 @@
-from fastapi import APIRouter
-from app.models import Record
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+from app.schemas import Record
 from app.utils import download_json, generate_url
+from typing import List
+from app.database import get_db
+from app.models import Record as DBRecord
 
 router = APIRouter()
 
@@ -22,3 +26,10 @@ def update_records():
         return {"message": "Descarga abortada: Error al procesar la respuesta JSON."}
     else:
         return {"message": "Descarga abortada: Error desconocido. Revisar consola"}
+
+@router.get("/records", response_model=List[Record])
+def get_records(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    records = db.query(DBRecord).offset(skip).limit(limit).all()
+    return records
+
+    

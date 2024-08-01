@@ -1,0 +1,22 @@
+.tableContainer {
+    overflow-x: auto; /* Permite desplazamiento horizontal */
+    width: 100%; /* Ajusta el ancho del contenedor al 100% */
+  }
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow: auto;
+  }
+  
+.td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    
+  }
+  
+.th {
+    border: 1px solid #ddd;
+    font-size: 75%;
+    
+  }

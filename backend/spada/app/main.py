@@ -2,12 +2,22 @@ from fastapi import FastAPI
 from routers import auth, data
 from apscheduler.schedulers.background import BackgroundScheduler
 import requests
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
 # Incluir los routers
 app.include_router(auth.router)
 app.include_router(data.router)
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Ajusta esto para permitir solo los orígenes específicos que necesitas
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Define la función que realiza la solicitud
 def send_request():

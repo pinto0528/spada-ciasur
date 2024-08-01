@@ -1,11 +1,12 @@
 .html{
-    background-color: rgb(32,32,32);
+    background-color: rgb(14, 14, 18);
+    font-family: 'Courier New', Courier, monospace;
 }
 
 .content{
     margin: 2vw;
     padding: 2vw;
-    background-color: rgb(32, 32, 32);
+    background-color: rgb(27, 27, 36);
     color: rgb(255, 255, 255);
-    border: 1px dashed white;
+    border-radius: 20px;
 }
