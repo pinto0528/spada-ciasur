@@ -1,6 +1,7 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime
+from sqlalchemy import Column, Integer, String, Float, DateTime, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from app.database import Base
+from sqlalchemy.orm import relationship
 
 Base = declarative_base()
 
@@ -11,12 +12,6 @@ class WeatherData(Base):
     temperature = Column(Float)
     humidity = Column(Float)
     timestamp = Column(DateTime)
-
-from sqlalchemy import Column, String, DateTime, Boolean
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
-
-Base = declarative_base()
 
 class Record(Base):
     __tablename__ = 'records'
@@ -41,3 +36,22 @@ class Record(Base):
     ftes_eval = Column(Boolean, default=False)
     h_es = Column(String, nullable=True)
     h_es_eval = Column(Boolean, default=False)
+    aip_hmf2 = Column(String, nullable=True)
+    aip_fof2 = Column(String, nullable=True)
+    aip_fof1 = Column(String, nullable=True)
+    aip_hmf1 = Column(String, nullable=True)
+    aip_d1 = Column(String, nullable=True)
+    aip_foe = Column(String, nullable=True)
+    aip_hme = Column(String, nullable=True)
+    aip_yme = Column(String, nullable=True)
+    aip_h_ve = Column(String, nullable=True)
+    aip_ewidth = Column(String, nullable=True)
+    aip_deln_ve = Column(String, nullable=True)
+    aip_b0 = Column(String, nullable=True)
+    aip_b1 = Column(String, nullable=True)
+    tec_bottom = Column(String, nullable=True)
+    tec_top = Column(String, nullable=True)
+    profile = Column(String, nullable=True)
+    trace = Column(String, nullable=True)
+    modified = Column(DateTime, nullable=True)
+    fof2_med_27_days = Column(String, nullable=True)
