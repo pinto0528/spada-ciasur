@@ -21,7 +21,7 @@ const SchedulerToggle: React.FC<SchedulerToggleProps> = ({ onStart, onStop, isRu
   return (
     <div>
       <label>
-        Scheduler:
+        Auto-download Data:
         <input
           type="checkbox"
           checked={isChecked}
