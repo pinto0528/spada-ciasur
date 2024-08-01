@@ -1,6 +1,8 @@
+'use client';
 import { FC } from 'react';
-import BackButton from '../../components/backbutton';
+import BackButton from '../../components/backbutton'
 import contentstyles from '../../styles/content.module.css'
+
 
 const DashboardPage: FC = () => {
   return (
