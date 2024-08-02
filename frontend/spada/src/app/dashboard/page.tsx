@@ -3,6 +3,7 @@ import { FC, useEffect, useState } from 'react';
 import BackButton from '../../components/backbutton';
 import SchedulerToggle from '../../components/schedulertoggle';
 import Table from '../../components/recordtable';
+import DynamicChart from '../../components/dinchart';
 
 import contentstyles from '../../styles/content.module.css';
 import { API_URL } from '../../utils/api';
@@ -68,6 +69,9 @@ const DashboardPage: React.FC = () => {
       <h1>Dashboard Page</h1>
       <div>
         <Table data={data} />
+      </div>
+      <div>
+        <DynamicChart data={data} /> {/* Incluye el nuevo componente */}
       </div>
       <SchedulerToggle
         onStart={startScheduler}
