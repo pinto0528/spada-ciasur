@@ -18,7 +18,7 @@ def send_request():
         print(f"Error: {e}")
 
 # Añade la tarea al scheduler, pero no la inicia automáticamente
-scheduler.add_job(send_request, IntervalTrigger(minutes=0.1), id='update_records_job')
+scheduler.add_job(send_request, IntervalTrigger(minutes=7), id='update_records_job')
 
 scheduler_running = False
 
