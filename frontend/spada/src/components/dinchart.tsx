@@ -12,6 +12,8 @@ import {
   Legend,
 } from 'chart.js';
 
+import zoomPlugin from 'chartjs-plugin-zoom'; // Importa el plugin
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -19,7 +21,8 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  zoomPlugin
 );
 
 interface DynamicChartProps {
@@ -84,10 +87,34 @@ const DynamicChart: React.FC<DynamicChartProps> = ({ data }) => {
       },
       title: {
         display: true,
-        text: 'FOF2 Over Time',
-      },
+        text: 'Parameters Over Time',
     },
-  };
+    zoom: {
+      zoom: {
+        wheel: {
+          enabled: true // Habilita el zoom con la rueda del ratón
+        },
+        pinch: {
+          enabled: true // Habilita el zoom con pellizcos en dispositivos táctiles
+        },
+        drag: {
+          enabled: false // Habilita el desplazamiento (pan) del gráfico
+        },
+        mode: 'xy' as const // Define el modo de zoom (x, y, o ambos)
+      },
+      pan: {
+        enabled: true,
+        mode: 'xy' as const // Define el modo de panorámica (x, y, o ambos)
+      }
+        }
+        },
+    scales: {
+        y: {
+            beginAtZero: true, // Comienza el eje Y en 0
+            min: 0 // Define el valor mínimo del eje Y en 0
+        }
+        }
+    };
 
   return <Line data={chartData} options={options} />;
 };
