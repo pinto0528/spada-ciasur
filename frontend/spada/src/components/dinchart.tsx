@@ -1,5 +1,6 @@
-// components/DynamicChart.tsx
-import React from 'react';
+'use client';
+import React, { useState, useEffect } from 'react';
+import { API_URL } from '../utils/api';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -12,7 +13,7 @@ import {
   Legend,
 } from 'chart.js';
 
-import zoomPlugin from 'chartjs-plugin-zoom'; // Importa el plugin
+import zoomPlugin from 'chartjs-plugin-zoom';
 
 ChartJS.register(
   CategoryScale,
@@ -25,12 +26,23 @@ ChartJS.register(
   zoomPlugin
 );
 
-interface DynamicChartProps {
-  data: any[];
-}
+const DynamicChart: React.FC = () => {
+  const [data, setData] = useState<any[]>([]);
 
-const DynamicChart: React.FC<DynamicChartProps> = ({ data }) => {
-  // Prepara los datos para el gráfico
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${API_URL}/records`); // Ajusta el endpoint según sea necesario
+        const result = await response.json();
+        setData(result);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const chartData = {
     labels: data.map((record) => record.dt),
     datasets: [
@@ -83,38 +95,38 @@ const DynamicChart: React.FC<DynamicChartProps> = ({ data }) => {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top' as const, // Aquí aseguramos que el valor sea uno de los permitidos
+        position: 'top' as const,
       },
       title: {
         display: true,
         text: 'Parameters Over Time',
-    },
-    zoom: {
-      zoom: {
-        wheel: {
-          enabled: true // Habilita el zoom con la rueda del ratón
-        },
-        pinch: {
-          enabled: true // Habilita el zoom con pellizcos en dispositivos táctiles
-        },
-        drag: {
-          enabled: false // Habilita el desplazamiento (pan) del gráfico
-        },
-        mode: 'xy' as const // Define el modo de zoom (x, y, o ambos)
       },
-      pan: {
-        enabled: true,
-        mode: 'xy' as const // Define el modo de panorámica (x, y, o ambos)
-      }
-        }
+      zoom: {
+        zoom: {
+          wheel: {
+            enabled: true,
+          },
+          pinch: {
+            enabled: true,
+          },
+          drag: {
+            enabled: false,
+          },
+          mode: 'xy' as const,
         },
+        pan: {
+          enabled: true,
+          mode: 'xy' as const,
+        },
+      },
+    },
     scales: {
-        y: {
-            beginAtZero: true, // Comienza el eje Y en 0
-            min: 0 // Define el valor mínimo del eje Y en 0
-        }
-        }
-    };
+      y: {
+        beginAtZero: true,
+        min: 0,
+      },
+    },
+  };
 
   return <Line data={chartData} options={options} />;
 };
