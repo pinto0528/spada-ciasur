@@ -4,6 +4,8 @@ import { Tabs, Tab, Box, Typography } from '@mui/material';
 import DynamicChart from './dinchart';
 import RecordTable from './recordtable';
 
+import tabstyles from '../styles/tabs.module.css'
+
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -38,7 +40,7 @@ const DashboardTab: React.FC = () => {
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '100%' }} className={tabstyles.tab}>
       <Tabs value={value} onChange={handleChange} aria-label="dashboard tabs">
         <Tab label="Charts" />
         <Tab label="Values" />

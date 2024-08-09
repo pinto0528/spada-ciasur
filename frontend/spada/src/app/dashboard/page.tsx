@@ -2,9 +2,8 @@
 import { FC, useEffect, useState } from 'react';
 import BackButton from '../../components/backbutton';
 import SchedulerToggle from '../../components/schedulertoggle';
-import Table from '../../components/recordtable';
-import DynamicChart from '../../components/dinchart';
 import DashboardTab from '../../components/dashboardtab';
+
 
 import contentstyles from '../../styles/content.module.css';
 import { API_URL } from '../../utils/api';

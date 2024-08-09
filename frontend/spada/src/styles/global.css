@@ -1,0 +1,34 @@
+.html{
+    background-color: rgb(14, 14, 18);
+    font-family: 'Courier New', Courier, monospace;
+    color: rgb(255, 255, 255);
+}
+
+.content{
+    margin: 2vw;
+    padding: 2vw;
+    background-color: rgb(27, 27, 36);
+    color: rgb(255, 255, 255);
+    border-radius: 20px;
+}
+
+/* Estilo de barra de desplazamiento para todos los elementos con overflow */
+
+/* Para navegadores basados en WebKit (Chrome, Safari, Edge) */
+*::-webkit-scrollbar {
+    width: 10px; /* Ancho de la barra de desplazamiento */
+}
+
+*::-webkit-scrollbar-track {
+    background: #262835; /* Color del fondo de la barra de desplazamiento */
+    border-radius: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: #1f275e; /* Color de la barra de desplazamiento */
+    border-radius: 10px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background: #3949ae; /* Color al hacer hover */
+}
