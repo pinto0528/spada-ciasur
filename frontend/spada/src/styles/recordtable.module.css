@@ -1,6 +1,8 @@
 .tableContainer {
     overflow-x: auto; /* Permite desplazamiento horizontal */
     width: 100%; /* Ajusta el ancho del contenedor al 100% */
+    max-height: 400px; /* Ajusta la altura según el diseño */
+    overflow-y: auto; /* Habilita el desplazamiento vertical */
   }
 
 .table {

@@ -28,7 +28,7 @@ def update_records():
         return {"message": "Descarga abortada: Error desconocido. Revisar consola"}
 
 @router.get("/records", response_model=List[Record])
-def get_records(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+def get_records(skip: int = 0, limit: int = 1000, db: Session = Depends(get_db)):
     records = db.query(DBRecord).offset(skip).limit(limit).all()
     return records
 
