@@ -1,6 +1,11 @@
 from sqlalchemy import Column, Integer, String, Float, DateTime, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Date, Numeric
+from sqlalchemy.orm import DeclarativeBase, Mapped
+from sqlalchemy.sql.sqltypes import Numeric
+from typing import Type
+
 
 Base = declarative_base()
 
@@ -54,3 +59,4 @@ class Record(Base):
     trace = Column(String, nullable=True)
     modified = Column(DateTime, nullable=True)
     fof2_med_27_days = Column(String, nullable=True)
+

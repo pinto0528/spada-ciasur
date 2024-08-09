@@ -9,8 +9,6 @@ import contentstyles from '../../styles/content.module.css';
 import { API_URL } from '../../utils/api';
 
 
-
-
 const DashboardPage: React.FC = () => {
   const [isSchedulerRunning, setIsSchedulerRunning] = useState<boolean>(false);
   

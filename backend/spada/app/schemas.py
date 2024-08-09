@@ -10,8 +10,6 @@ class WeatherData(BaseModel):
     class Config:
         orm_mode = True
 
-from datetime import datetime
-
 class Record(BaseModel):
     id: int
     dt: datetime
@@ -53,5 +51,9 @@ class Record(BaseModel):
     modified: Optional[datetime] = None
     fof2_med_27_days: Optional[str] = None
 
-    class Config:
-        orm_mode = True
+class DailyAverage(BaseModel):
+    date: datetime
+    average_fof2: float
+
+class Config:
+    from_attributes = True

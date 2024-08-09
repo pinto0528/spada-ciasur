@@ -1,7 +1,10 @@
+// components/dinchart.tsx
 'use client';
 import React, { useState, useEffect } from 'react';
-import { API_URL } from '../utils/api';
-import { Line } from 'react-chartjs-2';
+import dynamic from 'next/dynamic';
+
+const Line = dynamic(() => import('react-chartjs-2').then(mod => mod.Line), { ssr: false });
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -12,7 +15,6 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-
 import zoomPlugin from 'chartjs-plugin-zoom';
 
 ChartJS.register(
@@ -26,69 +28,53 @@ ChartJS.register(
   zoomPlugin
 );
 
-const DynamicChart: React.FC = () => {
+interface DynamicChartProps {
+  endpoint: string;
+  title: string;
+  keyForLabel?: string; // Optional key to use for labels
+}
+
+const DynamicChart: React.FC<DynamicChartProps> = ({ endpoint, title, keyForLabel }) => {
   const [data, setData] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${API_URL}/records`); // Ajusta el endpoint según sea necesario
+        const response = await fetch(endpoint);
         const result = await response.json();
         setData(result);
+        console.log('Fetched data:', result);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
     fetchData();
-  }, []);
+  }, [endpoint]);
+
+  // Extract labels from the data
+  const labels = data.length > 0 ? data.map((record: any) => record.date || record.dt) : [];
+
+  // Check if data is not empty before accessing its first item
+  const firstItem = data.length > 0 ? data[0] : {};
+  const datasetConfig = firstItem ? Object.keys(firstItem)
+    .filter(key => key !== 'date' && key !== 'dt') // Exclude date fields or other non-numeric fields
+    .map(key => ({
+      label: key,
+      key: key,
+      borderColor: getRandomColor(),
+      backgroundColor: getRandomColor(0.2),
+    }))
+    : [];
 
   const chartData = {
-    labels: data.map((record) => record.dt),
-    datasets: [
-      {
-        label: 'FOF2',
-        data: data.map((record) => record.fof2),
-        borderColor: 'rgba(75, 192, 192, 1)',
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-      },
-      {
-        label: 'MUF3000F2',
-        data: data.map((record) => record.muf3000f2),
-        borderColor: 'rgba(20, 20, 192, 1)',
-        backgroundColor: 'rgba(20, 20, 192, 0.2)',
-      },
-      {
-        label: 'M3000F2',
-        data: data.map((record) => record.m3000f2),
-        borderColor: 'rgba(60, 100, 15, 1)',
-        backgroundColor: 'rgba(60, 100, 15, 0.2)',
-      },
-      {
-        label: 'FXI',
-        data: data.map((record) => record.fxi),
-        borderColor: 'rgba(130, 100, 15, 1)',
-        backgroundColor: 'rgba(130, 100, 15, 0.2)',
-      },
-      {
-        label: 'FOF1',
-        data: data.map((record) => record.fof1),
-        borderColor: 'rgba(200, 100, 50, 1)',
-        backgroundColor: 'rgba(200, 100, 50, 0.2)',
-      },
-      {
-        label: 'FTES',
-        data: data.map((record) => record.ftes),
-        borderColor: 'rgba(150, 180, 50, 1)',
-        backgroundColor: 'rgba(150, 180, 50, 0.2)',
-      },
-      {
-        label: 'H ES',
-        data: data.map((record) => record.h_es),
-        borderColor: 'rgba(150, 56, 50, 1)',
-        backgroundColor: 'rgba(150, 56, 50, 0.2)',
-      },
-    ],
+    labels: labels,
+    datasets: datasetConfig.map(config => ({
+      label: config.label,
+      data: data.map((record: any) => record[config.key]),
+      borderColor: config.borderColor,
+      backgroundColor: config.backgroundColor,
+    })),
   };
 
   const options = {
@@ -99,7 +85,7 @@ const DynamicChart: React.FC = () => {
       },
       title: {
         display: true,
-        text: 'Parameters Over Time',
+        text: title,
       },
       zoom: {
         zoom: {
@@ -127,6 +113,13 @@ const DynamicChart: React.FC = () => {
       },
     },
   };
+
+  function getRandomColor(alpha: number = 1) {
+    const r = Math.floor(Math.random() * 255);
+    const g = Math.floor(Math.random() * 255);
+    const b = Math.floor(Math.random() * 255);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  }
 
   return <Line data={chartData} options={options} />;
 };
