@@ -1,8 +1,9 @@
-// components/DashboardTabs.tsx
+// components/dashboardtab.tsx
+'use client';
 import React, { useState } from 'react';
 import { Tabs, Tab, Box, Typography } from '@mui/material';
-import DynamicChart from './dinchart';
 import RecordTable from './recordtable';
+import { API_URL } from '../utils/api';
 
 import tabstyles from '../styles/tabs.module.css'
 
@@ -11,6 +12,11 @@ interface TabPanelProps {
   index: number;
   value: number;
 }
+import dynamic from 'next/dynamic';
+
+// Importa tu componente dinámicamente
+const DynamicChart = dynamic(() => import('../components/dinchart'), { ssr: false });
+
 
 
 const TabPanel: React.FC<TabPanelProps> = ({ children, value, index, ...other }) => {
@@ -46,7 +52,8 @@ const DashboardTab: React.FC = () => {
         <Tab label="Values" />
       </Tabs>
       <TabPanel value={value} index={0}>
-        <DynamicChart />
+        <DynamicChart endpoint={`${API_URL}/records`} title="Real-Time Data" />
+        <DynamicChart endpoint={`${API_URL}/daily-averages`} title="Daily FOF2 average" />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <RecordTable />
