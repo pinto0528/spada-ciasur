@@ -1,12 +1,18 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from app.schemas import Record, DailyAverage
+from app.schemas import Record, DailyAverages
 from app.models import Record as DBRecord
 from app.utils import download_json, generate_url
 from typing import List
 from app.database import get_db
 from pydantic import BaseModel
 import asyncpg
+from fastapi import FastAPI, HTTPException
+from sqlalchemy import create_engine, text
+from sqlalchemy.orm import sessionmaker
+from pydantic import BaseModel
+from typing import List
+import json
 
 router = APIRouter()
 
@@ -36,10 +42,18 @@ def get_records(skip: int = 0, limit: int = 1000, db: Session = Depends(get_db))
     records = db.query(DBRecord).offset(skip).limit(limit).all()
     return records
 
-@router.get("/daily-average", response_model=List[DailyAverage])
-async def get_daily_average():
-    conn = await asyncpg.connect(user='postgres', password='admin', database='spada-records-new', host='localhost')
-    results = await conn.fetch('SELECT * FROM daily_average();')
-    await conn.close()
-    return [dict(result) for result in results]
+@router.get("/daily-averages", response_model=List[DailyAverages])
+def get_daily_averages(skip: int = 0, limit: int = 1000, db: Session = Depends(get_db)):
+    try:
+        db.execute(text("CALL daily_avg_all_params()"))
+        result = db.execute(text("SELECT * FROM temp_daily_averages")).fetchall()
+
+        # Convertir las filas a diccionarios
+        daily_averages = [dict(row._mapping) for row in result]
+
+        return daily_averages
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        db.close()
     

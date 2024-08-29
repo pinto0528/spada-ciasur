@@ -53,7 +53,7 @@ const DashboardTab: React.FC = () => {
       </Tabs>
       <TabPanel value={value} index={0}>
         <DynamicChart endpoint={`${API_URL}/records`} title="Real-Time Data" />
-        <DynamicChart endpoint={`${API_URL}/daily-average`} title="Daily FOF2 average" />
+        <DynamicChart endpoint={`${API_URL}/daily-averages`} title="Daily FOF2 average" />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <RecordTable />
