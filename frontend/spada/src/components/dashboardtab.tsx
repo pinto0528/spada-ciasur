@@ -54,8 +54,15 @@ const DashboardTab: React.FC = () => {
       <TabPanel value={value} index={0}>
           <DynamicChart
             endpoint={`${API_URL}/data`}
-            title="Datos Crudos"
+            title="Datos Individuales"
             dataType="raw"
+          />
+
+          <DynamicChart
+            endpoint={`${API_URL}/data`}
+            title="Promedios por Hora"
+            interval="hour"
+            dataType="average"
           />
 
           <DynamicChart
@@ -64,6 +71,7 @@ const DashboardTab: React.FC = () => {
             interval="day"
             dataType="average"
           />
+
       </TabPanel>
       <TabPanel value={value} index={1}>
         <RecordTable />
