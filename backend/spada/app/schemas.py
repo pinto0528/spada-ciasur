@@ -52,55 +52,6 @@ class Record(BaseModel):
     modified: Optional[datetime] = None
     fof2_med_27_days: Optional[str] = None
 
-class HourlyAverages(BaseModel):
-    dt: date 
-    avg_fof2: Optional[float] = None 
-    avg_muf3000f2: Optional[float] = None 
-    avg_m3000f2: Optional[float] = None 
-    avg_fxi: Optional[float] = None 
-    avg_fof1: Optional[float] = None 
-    avg_ftes: Optional[float] = None 
-    avg_h_es: Optional[float] = None
-
-class DailyAverages(BaseModel):
-    dt: date 
-    avg_fof2: Optional[float] = None 
-    avg_muf3000f2: Optional[float] = None 
-    avg_m3000f2: Optional[float] = None 
-    avg_fxi: Optional[float] = None 
-    avg_fof1: Optional[float] = None 
-    avg_ftes: Optional[float] = None 
-    avg_h_es: Optional[float] = None
-
-class WeeklyAverages(BaseModel):
-    dt: date 
-    avg_fof2: Optional[float] = None 
-    avg_muf3000f2: Optional[float] = None 
-    avg_m3000f2: Optional[float] = None 
-    avg_fxi: Optional[float] = None 
-    avg_fof1: Optional[float] = None 
-    avg_ftes: Optional[float] = None 
-    avg_h_es: Optional[float] = None
-
-class MonthlyAverages(BaseModel):
-    dt: date 
-    avg_fof2: Optional[float] = None 
-    avg_muf3000f2: Optional[float] = None 
-    avg_m3000f2: Optional[float] = None 
-    avg_fxi: Optional[float] = None 
-    avg_fof1: Optional[float] = None 
-    avg_ftes: Optional[float] = None 
-    avg_h_es: Optional[float] = None
-
-class YearlyAverages(BaseModel):
-    dt: date 
-    avg_fof2: Optional[float] = None 
-    avg_muf3000f2: Optional[float] = None 
-    avg_m3000f2: Optional[float] = None 
-    avg_fxi: Optional[float] = None 
-    avg_fof1: Optional[float] = None 
-    avg_ftes: Optional[float] = None 
-    avg_h_es: Optional[float] = None
 
 class Config:
     from_attributes = True

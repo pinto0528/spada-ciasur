@@ -32,20 +32,15 @@ interface DynamicChartProps {
   endpoint: string;
   title: string;
   keyForLabel?: string; // Optional key to use for labels
-  interval?: string; // Optional prop for interval
-  dataType?: 'raw' | 'average'; // New prop to select data type
 }
 
-const DynamicChart: React.FC<DynamicChartProps> = ({ endpoint, title, keyForLabel, interval, dataType = 'raw' }) => {
+const DynamicChart: React.FC<DynamicChartProps> = ({ endpoint, title, keyForLabel }) => {
   const [data, setData] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const queryString = interval ? `?interval=${interval}&data_type=${dataType}` : `?data_type=${dataType}`;
-        const url = `${endpoint}${queryString}`;
-        console.log('Fetching URL:', url); // Verifica la URL generada
-        const response = await fetch(url);
+        const response = await fetch(endpoint);
         const result = await response.json();
         setData(result);
         console.log('Fetched data:', result);
@@ -53,13 +48,14 @@ const DynamicChart: React.FC<DynamicChartProps> = ({ endpoint, title, keyForLabe
         console.error('Error fetching data:', error);
       }
     };
-  
+
     fetchData();
-  }, [endpoint, interval, dataType]);
+  }, [endpoint]);
 
   // Extract labels from the data
-  const labels = data.length > 0 ? data.map((record: any) => record.date || record.dt || record.period_start) : [];
+  const labels = data.length > 0 ? data.map((record: any) => record.date || record.dt) : [];
 
+  // Check if data is not empty before accessing its first item
   const firstItem = data.length > 0 ? data[0] : {};
   const datasetConfig = firstItem ? Object.keys(firstItem)
     .filter(key => key !== 'date' && key !== 'dt') // Exclude date fields or other non-numeric fields
