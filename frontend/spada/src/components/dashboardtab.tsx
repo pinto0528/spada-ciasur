@@ -48,8 +48,10 @@ const DashboardTab: React.FC = () => {
   return (
     <Box sx={{ width: '100%' }} className={tabstyles.tab}>
       <Tabs value={value} onChange={handleChange} aria-label="dashboard tabs">
-        <Tab label="Charts" />
         <Tab label="Values" />
+        <Tab label="Hourly" />
+        <Tab label="Daily" />
+        <Tab label="Table" />
       </Tabs>
       <TabPanel value={value} index={0}>
           <DynamicChart
@@ -57,23 +59,26 @@ const DashboardTab: React.FC = () => {
             title="Datos Individuales"
             dataType="raw"
           />
-
-          <DynamicChart
-            endpoint={`${API_URL}/data`}
-            title="Promedios por Hora"
-            interval="hour"
-            dataType="average"
-          />
-
-          <DynamicChart
-            endpoint={`${API_URL}/data`}
-            title="Promedios Diarios"
-            interval="day"
-            dataType="average"
-          />
-
       </TabPanel>
+
       <TabPanel value={value} index={1}>
+        <DynamicChart
+              endpoint={`${API_URL}/data`}
+              title="Promedios por Hora"
+              interval="hour"
+              dataType="average"
+            />
+      </TabPanel>
+
+      <TabPanel value={value} index={2}>
+        <DynamicChart
+              endpoint={`${API_URL}/data`}
+              title="Promedios Diarios"
+              interval="day"
+              dataType="average"
+            />
+      </TabPanel>
+      <TabPanel value={value} index={3}>
         <RecordTable />
       </TabPanel>
     </Box>
