@@ -1,3 +1,4 @@
+'use client';
 import contentstyles from '../../styles/content.module.css'
 import '../../styles/global.css'
 

@@ -44,7 +44,7 @@ def get_data(interval: Optional[str] = None, data_type: str = 'raw', db: Session
             result = db.execute(text("SELECT * FROM calculate_averages(:interval_param)"), {"interval_param": interval}).fetchall()
         else:
             # Consulta para obtener datos crudos
-            result = db.execute(text("SELECT * FROM records")).fetchall()
+            result = db.execute(text("SELECT * FROM parameters_records")).fetchall()
 
         # Convertir las filas a diccionarios
         data = [dict(row._mapping) for row in result]
