@@ -1,39 +1,45 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from typing import List
-from app.pydantic_models import IonosphericData
+from app.models import IonosphericData as SqlAlchemy  # Modelo SQLAlchemy
+from app.pydantic_models import IonosphericData as Pydantic  # Modelo Pydantic
 from app.database import get_db  # función para obtener la sesión de la base de datos
+from datetime import datetime
 
 router = APIRouter()
 
 # Crear un nuevo registro de datos ionosféricos
-@router.post("/ionospheric-data/", response_model=IonosphericData)
-def create_ionospheric_data(data: IonosphericData, db: Session = Depends(get_db)):
-    db.add(data)
+@router.post("/ionospheric-data/", response_model=Pydantic)
+def create_ionospheric_data(data: Pydantic, db: Session = Depends(get_db)):
+    # Convertir el modelo de Pydantic a SQLAlchemy
+    db_data = SqlAlchemy(**data.dict())
+    db.add(db_data)
     db.commit()
-    db.refresh(data)
-    return data
+    db.refresh(db_data)
+    return db_data
 
 # Obtener todos los registros de datos ionosféricos
-@router.get("/ionospheric-data/", response_model=List[IonosphericData])
+@router.get("/ionospheric-data/", response_model=List[Pydantic])
 def read_ionospheric_data(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
-    return db.query(IonosphericData).offset(skip).limit(limit).all()
+    # Consultar los registros desde la base de datos usando el modelo SQLAlchemy
+    return db.query(SqlAlchemy).offset(skip).limit(limit).all()
 
-# Obtener un registro de datos ionosféricos por ID
-@router.get("/ionospheric-data/{data_id}", response_model=IonosphericData)
-def read_ionospheric_data(data_id: int, db: Session = Depends(get_db)):
-    data = db.query(IonosphericData).filter(IonosphericData.id == data_id).first()
+# Obtener un registro de datos ionosféricos por dt
+@router.get("/ionospheric-data/{dt}", response_model=Pydantic)
+def read_ionospheric_data(dt: datetime, db: Session = Depends(get_db)):
+    data = db.query(SqlAlchemy).filter(SqlAlchemy.dt == dt).first()
     if data is None:
         raise HTTPException(status_code=404, detail="Data not found")
     return data
 
-# Actualizar un registro de datos ionosféricos
-@router.put("/ionospheric-data/{data_id}", response_model=IonosphericData)
-def update_ionospheric_data(data_id: int, data: IonosphericData, db: Session = Depends(get_db)):
-    db_data = db.query(IonosphericData).filter(IonosphericData.id == data_id).first()
+# Actualizar un registro de datos ionosféricos por dt
+@router.put("/ionospheric-data/{dt}", response_model=Pydantic)
+def update_ionospheric_data(dt: datetime, data: Pydantic, db: Session = Depends(get_db)):
+    db_data = db.query(SqlAlchemy).filter(SqlAlchemy.dt == dt).first()
     if db_data is None:
         raise HTTPException(status_code=404, detail="Data not found")
     
+    # Actualizar los campos del registro
     for key, value in data.dict(exclude_unset=True).items():
         setattr(db_data, key, value)
     
@@ -41,10 +47,10 @@ def update_ionospheric_data(data_id: int, data: IonosphericData, db: Session = D
     db.refresh(db_data)
     return db_data
 
-# Eliminar un registro de datos ionosféricos
-@router.delete("/ionospheric-data/{data_id}")
-def delete_ionospheric_data(data_id: int, db: Session = Depends(get_db)):
-    db_data = db.query(IonosphericData).filter(IonosphericData.id == data_id).first()
+# Eliminar un registro de datos ionosféricos por dt
+@router.delete("/ionospheric-data/{dt}")
+def delete_ionospheric_data(dt: datetime, db: Session = Depends(get_db)):
+    db_data = db.query(SqlAlchemy).filter(SqlAlchemy.dt == dt).first()
     if db_data is None:
         raise HTTPException(status_code=404, detail="Data not found")
     

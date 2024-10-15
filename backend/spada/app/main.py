@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from routers import auth, ionospheric_data, solar_data
+from download_server import download_server
 from fastapi.middleware.cors import CORSMiddleware
 from .database import engine, Base
 

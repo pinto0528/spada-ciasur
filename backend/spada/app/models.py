@@ -4,8 +4,7 @@ from .database import Base
 class IonosphericData(Base):
     __tablename__ = "ionospheric_data"
 
-    id = Column(Integer, primary_key=True, index=True)
-    dt = Column(TIMESTAMP, nullable=False)
+    dt = Column(TIMESTAMP, primary_key=True, nullable=False)
     station = Column(String, nullable=False)
     fof2 = Column(Numeric(5, 2), nullable=True)  # Con 2 decimales
     fof2_eval = Column(Boolean, nullable=True)
@@ -35,6 +34,7 @@ class IonosphericData(Base):
     aip_b0 = Column(Numeric(5, 2), nullable=True)
     aip_b1 = Column(Numeric(5, 2), nullable=True)
     tec_bottom = Column(Numeric(5, 2), nullable=True)
+    tec_top = Column(Numeric)
     profile = Column(JSON, nullable=True)
     trace = Column(JSON, nullable=True)
     modified = Column(TIMESTAMP, nullable=True)
@@ -43,8 +43,7 @@ class IonosphericData(Base):
 class SolarData(Base):
     __tablename__ = "solar_data"
 
-    id = Column(Integer, primary_key=True, index=True)
-    time_tag = Column(Date, nullable=False)  # Se puede usar DATE o TIMESTAMP
+    dt = Column(TIMESTAMP, primary_key=True, nullable=False)  # Se puede usar DATE o TIMESTAMP
     ssn = Column(Numeric(5, 2), nullable=True)
     smoothed_ssn = Column(Numeric(5, 2), nullable=True)
     observed_swpc_ssn = Column(Numeric(5, 2), nullable=True)

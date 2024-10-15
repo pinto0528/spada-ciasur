@@ -4,7 +4,7 @@ from datetime import datetime
 from decimal import Decimal
 
 class IonosphericData(BaseModel):
-    id: Optional[int]  # Este campo es opcional en las peticiones de creación
+
     dt: datetime
     station: str = Field(..., description="Nombre de la estación")  # Asegura que 'station' es un string
     fof2: Optional[Decimal] = None
@@ -45,7 +45,7 @@ class IonosphericData(BaseModel):
 
 
 class SolarData(BaseModel):
-    time_tag: str
+    dt: datetime
     ssn: float
     smoothed_ssn: Optional[float] = None
     observed_swpc_ssn: float
