@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from typing import List
 from app.pydantic_models import IonosphericData
-from app.database import get_db  # Asegúrate de tener esta función para obtener la sesión de la base de datos
+from app.database import get_db  # función para obtener la sesión de la base de datos
 
 router = APIRouter()
 
