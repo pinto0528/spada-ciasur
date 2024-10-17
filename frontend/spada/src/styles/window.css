@@ -3,21 +3,28 @@
     background-color: #1e2127;
     color: white;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
-    z-index: 10; /* Asegura que la ventana esté por encima de otros elementos */
+    z-index: 10;
+    display: flex; /* Asegura que la ventana use flexbox */
+    flex-direction: column; /* Configura la dirección del contenido */
+    width: 300px; /* Tamaño inicial, puedes ajustarlo */
+    height: 200px; /* Tamaño inicial, puedes ajustarlo */
 }
 
 .window-content {
     background-color: #1e2127;
     color: white;
     padding: 5px;
+    display: flex; /* Asegúrate de que use flexbox */
+    flex-direction: column; /* Coloca los elementos en columna */
+    flex: 1; /* Permite que este contenedor use el espacio restante */
 }
 
 .window-title {
     cursor: move;
     margin-bottom: 10px;
     font-size: small;
-    padding: 5px; /* Padding para hacer clic más fácil */
-    background-color: #333; /* Un poco más oscuro para el título */
+    padding: 5px;
+    background-color: #333;
 }
 
 .window-resize {
@@ -43,4 +50,15 @@
 
 .close-button:hover {
     color: darkred; /* Cambia el color al pasar el ratón */
+}
+
+.maximize-button {
+    background-color: transparent; /* Fondo transparente */
+    border: none; /* Sin borde */
+    color: rgb(255, 255, 255); /* Color de la cruz */
+    font-size: 25px; /* Tamaño de la cruz */
+    cursor: pointer; /* Cambiar cursor al pasar por encima */
+    position: absolute; /* Para posicionar en la esquina superior derecha */
+    top: -4.5px; /* Ajustar según sea necesario */
+    right: 20px; /* Ajustar según sea necesario */
 }
