@@ -118,7 +118,7 @@ const Window: React.FC<WindowProps> = ({ title: initialTitle, children, onClose,
                 ) : (
                     <>
                         <button onClick={toggleMaximize} className="maximize-button">
-                            {isMaximized ? '🔽' : '🔼'}
+                            {isMaximized ? '□' : '■'}
                         </button>
                         <button onClick={onClose} className="close-button">✖</button>
                         {title}

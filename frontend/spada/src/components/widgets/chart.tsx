@@ -24,11 +24,18 @@ const Chart: React.FC<{ endpoint: string }> = ({ endpoint }) => {
                 const json = await response.json();
                 const labels = json.map((item: any) => new Date(item.avg_time).toLocaleTimeString());
 
+                const getRandomColor = () => {
+                    const r = Math.floor(Math.random() * 256);
+                    const g = Math.floor(Math.random() * 256);
+                    const b = Math.floor(Math.random() * 256);
+                    return `rgba(${r}, ${g}, ${b}, 1)`;
+                };
+
                 const datasets = Object.keys(json[0].avg_data).map((key, index) => {
                     return {
                         label: key,
                         data: json.map((item: any) => item.avg_data[key]),
-                        borderColor: `rgba(${index * 50}, ${100 + index * 30}, ${150}, 1)`,
+                        borderColor: getRandomColor(),
                         fill: true,
                         hidden: index !== 0,
                     };

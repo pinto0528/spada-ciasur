@@ -16,8 +16,8 @@ const ComboBox: React.FC<ComboBoxProps> = ({ onSelect }) => {
     ];
 
     return (
-        <select onChange={(e) => onSelect(e.target.value)} defaultValue="">
-            <option value="" disabled>Select an endpoint</option>
+        <select style={{maxWidth: '20%'}} onChange={(e) => onSelect(e.target.value)} defaultValue="">
+            <option  value="" disabled>Select an endpoint</option>
             {options.map(option => (
                 <option key={option.value} value={option.value}>
                     {option.label}
