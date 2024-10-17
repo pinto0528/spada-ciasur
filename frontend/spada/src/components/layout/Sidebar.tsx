@@ -1,22 +1,21 @@
-// components/Sidebar.tsx
 import React from 'react';
-import styles from '../../styles/sidebar.module.css';
+import Link from 'next/link';
+import '../../styles/sidebar.css'
 
-const Sidebar: React.FC = () => {
+const Sidebar = () => {
   return (
-    <div className={styles.sidebar}>
-      <h1>SPADA</h1>
-      <div className={styles.navItems}>
-        <a href="/home">Inicio</a>
-        <a href="/dashboard">Tablero</a>
-        <a href="/login">Iniciar Sesion</a>
-        <a href="/settings">Configuracion</a>
-      </div>
-      <div className={styles.footer}>
-        <p>CIASUR</p>
-        <p>Facultad Regional Tucuman</p>
-        <p>Universidad Tecnologica Nacional</p>
-      </div>
+    <div className="sidebar">
+     <h1><Link href="/home">SPADA</Link></h1>
+      <nav>
+        <ul>
+          <li>
+            <Link href="/dashboard">Dashboard</Link>
+          </li>
+          <li>
+            <Link href="/settings">Settings</Link>
+          </li>
+        </ul>
+      </nav>
     </div>
   );
 };
