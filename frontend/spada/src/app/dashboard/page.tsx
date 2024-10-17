@@ -6,9 +6,8 @@ import Chart from '../../components/widgets/chart';
 
 export default function HomePage() {
     const [isClient, setIsClient] = useState(false);
-    const [windows, setWindows] = useState<{ id: number; title: string; position: { x: number; y: number } }[]>([]);
+    const [windows, setWindows] = useState<{ id: number; title: string; position: { x: number; y: number }; endpoint: string }[]>([]);
     const [nextId, setNextId] = useState(1); // Para asignar un ID único a cada ventana
-    const [endpoint, setEndpoint] = useState<string>(''); // Estado para el endpoint
 
     useEffect(() => {
         setIsClient(true);
@@ -21,7 +20,7 @@ export default function HomePage() {
         const x = (window.innerWidth - windowWidth) / 2;
         const y = (window.innerHeight - windowHeight) / 2;
 
-        setWindows([...windows, { id: nextId, title: `Window ${nextId}`, position: { x, y } }]);
+        setWindows([...windows, { id: nextId, title: `Window ${nextId}`, position: { x, y }, endpoint: '' }]);
         setNextId(nextId + 1); // Incrementar el ID para la próxima ventana
     };
 
@@ -30,8 +29,10 @@ export default function HomePage() {
     };
 
     // Manejar la selección del endpoint desde el ComboBox
-    const handleSelectEndpoint = (selectedEndpoint: string) => {
-        setEndpoint(selectedEndpoint);
+    const handleSelectEndpoint = (id: number, selectedEndpoint: string) => {
+        setWindows(windows.map(window => 
+            window.id === id ? { ...window, endpoint: selectedEndpoint } : window
+        ));
     };
 
     return (
@@ -45,10 +46,10 @@ export default function HomePage() {
                     title={window.title}
                     onClose={() => handleCloseWindow(window.id)}
                     initialPosition={window.position} // Pasar la posición inicial
-                    onSelectEndpoint={handleSelectEndpoint} // Pasar la función para seleccionar el endpoint
+                    onSelectEndpoint={(selectedEndpoint) => handleSelectEndpoint(window.id, selectedEndpoint)} // Pasar la función para seleccionar el endpoint
                 >
                     {/* Solo renderizar el gráfico si hay un endpoint seleccionado */}
-                    {endpoint && <Chart endpoint={endpoint} />} 
+                    {window.endpoint && <Chart endpoint={window.endpoint} />} 
                 </Window>
             ))}
         </div>

@@ -89,17 +89,17 @@ const Window: React.FC<WindowProps> = ({ title: initialTitle, children, onClose,
     };
 
     return (
-            <div
-                className="window"
-                style={{
-                    top: isMaximized ? 0 : position.y,
-                    left: isMaximized ? 0 : position.x,
-                    width: isMaximized ? '100vw' : `${size.width}px`,
-                    height: isMaximized ? '100vh' : `${size.height}px`,
-                    display: 'flex', // Agrega esto
-                    flexDirection: 'column', // Agrega esto
-                }}
-            >
+        <div
+            className="window"
+            style={{
+                top: isMaximized ? 0 : position.y,
+                left: isMaximized ? 0 : position.x,
+                width: isMaximized ? '100vw' : `${size.width}px`,
+                height: isMaximized ? '100vh' : `${size.height}px`,
+                display: 'flex',
+                flexDirection: 'column',
+            }}
+        >
             <div
                 onMouseDown={handleMouseDown}
                 className="window-title"
@@ -126,13 +126,13 @@ const Window: React.FC<WindowProps> = ({ title: initialTitle, children, onClose,
                 )}
             </div>
             <div className="window-content" style={{ flex: 1 }}>
-            <ComboBox onSelect={onSelectEndpoint} />
-            <div style={{ flex: 1, overflow: 'hidden' }}>
-                {children}
+                <ComboBox onSelect={onSelectEndpoint} /> {/* Aquí es donde colocas el ComboBox */}
+                <div style={{ flex: 1, overflow: 'hidden' }}>
+                    {children}
+                </div>
+                <div onMouseDown={handleResizeMouseDown} className="window-resize" />
             </div>
-            <div onMouseDown={handleResizeMouseDown} className="window-resize" />
         </div>
-    </div>
     );
 };
 
