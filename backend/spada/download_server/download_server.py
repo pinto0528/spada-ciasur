@@ -1,42 +1,47 @@
-from fastapi import FastAPI, HTTPException
-from fastapi.responses import JSONResponse
+from fastapi import FastAPI, APIRouter, HTTPException
 import subprocess
 import psutil
+import os
 
-router = FastAPI()
+router = APIRouter()
 
-# Variable para almacenar el proceso del cliente de descarga
-download_client_process = None
-
-def start_download_client():
-    global download_client_process
-    download_client_process = subprocess.Popen(["python", "download_client.py"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-
-def stop_download_client():
-    global download_client_process
-    if download_client_process is not None:
-        # Encuentra y termina el proceso
-        pid = download_client_process.pid
-        process = psutil.Process(pid)
-        process.terminate()  # Termina el proceso
-        download_client_process = None  # Resetea la variable
-
-@router.get("/")
-def read_root():
-    return {"message": "Welcome to the Download Server API"}
+download_client_pid = None  # Variable para almacenar el PID del cliente de descarga
 
 @router.post("/download-client/start")
-def start_client():
-    if download_client_process is not None:
-        return JSONResponse(content={"message": "Download client is already running"}, status_code=400)
+def start_download_client():
+    global download_client_pid  # Usamos la variable global
 
-    start_download_client()
-    return JSONResponse(content={"message": "Download client started"}, status_code=200)
+    # Comando para ejecutar el script
+    command = ["python", "download_client.py"]
+
+    # Iniciar el proceso
+    process = subprocess.Popen(command, cwd=os.path.dirname(__file__))
+    download_client_pid = process.pid  # Guardamos el PID
+    return {"status": "Download client started", "pid": download_client_pid}
 
 @router.post("/download-client/stop")
-def stop_client():
-    if download_client_process is None:
-        return JSONResponse(content={"message": "Download client is not running"}, status_code=400)
+def stop_download_client():
+    global download_client_pid  # Usamos la variable global
 
-    stop_download_client()
-    return JSONResponse(content={"message": "Download client stopped"}, status_code=200)
+    if download_client_pid is not None:
+        try:
+            proc = psutil.Process(download_client_pid)
+            proc.terminate()  # O usar proc.kill() para forzar la terminación
+            download_client_pid = None  # Reseteamos el PID después de detener el proceso
+            return {"status": "Download client stopped", "pid": proc.pid}
+        except psutil.NoSuchProcess:
+            download_client_pid = None  # Reseteamos si el proceso ya no existe
+            raise HTTPException(status_code=404, detail="Download client not running")
+    else:
+        raise HTTPException(status_code=404, detail="Download client not running")
+
+# Crear una instancia de FastAPI
+app = FastAPI()
+
+# Incluir el router
+app.include_router(router)
+
+# Para ejecutar el servidor directamente desde este archivo, aunque normalmente usarías el comando uvicorn
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="127.0.0.1", port=5000)

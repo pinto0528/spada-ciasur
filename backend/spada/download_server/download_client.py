@@ -1,3 +1,9 @@
+import sys
+import os
+
+# Añadir la carpeta raíz (una carpeta arriba de la actual) al sys.path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import requests
 import time
 from datetime import datetime, timedelta
@@ -76,7 +82,7 @@ def fetch_ionospheric_data(start_time, end_time):
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
-        print(f"Data fetched")
+        print(f"Data fetched from {start_time} to {end_time}")
         time.sleep(1) 
         with get_db_session() as db:  # Usar el context manager
             save_data(db, data['records'])  # Pasa la sesión y los registros
@@ -102,7 +108,7 @@ def main():
         fetch_ionospheric_data(start_time_str, end_time_str)
 
         # Esperar 10 minutos
-        time.sleep(300)  # Espera 300 segundos (5 minutos)
+        time.sleep(3)  # Espera 300 segundos (5 minutos)
 
 if __name__ == "__main__":
     main()
