@@ -1,33 +1,47 @@
-'use client';
-import { FC } from 'react';
-import Link from 'next/link';
-import buttonstyles from '../../styles/button.module.css'
-import contentstyles from '../../styles/content.module.css'
-import MainLayout from '../../components/layout/MainLayout';
+"use client"; // Indica que este es un componente de cliente
 
+import { useEffect, useState } from 'react';
+import Window from '../../components/widgets/window'; // Asegúrate de que la ruta sea correcta
 
-const Home: FC = () => {
+export default function HomePage() {
+  const [isClient, setIsClient] = useState(false);
+  const [windows, setWindows] = useState<{ id: number; title: string; position: { x: number; y: number } }[]>([]);
+  const [nextId, setNextId] = useState(1); // Para asignar un ID único a cada ventana
+
+  useEffect(() => {
+      setIsClient(true);
+  }, []);
+
+  const handleOpenWindow = () => {
+      // Calcular posición centrada en la ventana del navegador
+      const windowWidth = 300; // Ancho predeterminado de la ventana
+      const windowHeight = 200; // Alto predeterminado de la ventana
+      const x = (window.innerWidth - windowWidth) / 2;
+      const y = (window.innerHeight - windowHeight) / 2;
+
+      setWindows([...windows, { id: nextId, title: `Window ${nextId}`, position: { x, y } }]);
+      setNextId(nextId + 1); // Incrementar el ID para la próxima ventana
+  };
+
+  const handleCloseWindow = (id: number) => {
+      setWindows(windows.filter(window => window.id !== id));
+  };
+
   return (
-    <MainLayout>
-    <main className={contentstyles.content}>
       <div>
-       
-          <h1>SPADA</h1>
-            <h3>CIASUR - FRT</h3>
-              <p>SPADA es una aplicación innovadora diseñada para la gestión eficiente de datos atmosféricos. <br/>Ofrece funcionalidades para:<br/>
-              <br/>
-      Recopilación de Datos: Descarga y almacena datos atmosféricos en intervalos regulares desde fuentes externas.<br/>
-      Análisis y Visualización: Proporciona herramientas para visualizar datos en gráficos interactivos y analizar 
-      tendencias a través de diferentes intervalos de tiempo.<br/>
-      Interfaz Amigable: Facilita una navegación intuitiva y la configuración de filtros para un análisis detallado.<br/>
-      <br/><br/>Con SPADA, obtener y gestionar datos atmosféricos es más sencillo y eficiente, permitiendo una visión clara y 
-      accesible de la información esencial.</p>
+          <h1>Welcome to the Home Page</h1>
+          <button onClick={handleOpenWindow}>Open Draggable Window</button>
 
-      <p> CIASUR Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>       
+          {windows.map(window => (
+              <Window
+                  key={window.id}
+                  title={window.title}
+                  onClose={() => handleCloseWindow(window.id)}
+                  initialPosition={window.position} // Pasar la posición inicial
+              >
+                  <p>This is the content of {window.title}.</p>
+              </Window>
+          ))}
       </div>
-    </main>
-    </MainLayout>
   );
-};
-
-export default Home;
+}

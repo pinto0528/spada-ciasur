@@ -10,12 +10,15 @@ from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from app.database import get_db  
-from app.models import IonosphericData 
+from app.models import IonosphericData, SolarData  # Asegúrate de que tienes un modelo para los datos solares
 from contextlib import contextmanager
 from decimal import Decimal
 
+# Constantes
 STATION_CODE = "wstuj2o_auto"  # Código de la estación
 BASE_URL = "http://ws-eswua.rm.ingv.it/ais.php/records/"
+SOLAR_URL = "https://services.swpc.noaa.gov/json/solar-cycle/observed-solar-cycle-indices.json"
+MONTHLY_FETCH_DAY = 1  # Día del mes para descargar datos solares
 
 @contextmanager
 def get_db_session():
@@ -24,11 +27,12 @@ def get_db_session():
         yield db
     finally:
         db.close()  # Cierra la sesión después de usarla
-
-def save_data(db: Session, records):
+       
+def save_data(db: Session, records, data_type='ionospheric'):
     for record in records:
         try:
-            ionospheric_data = IonosphericData(
+            if data_type == 'ionospheric':
+                ionospheric_data = IonosphericData(
                 dt=datetime.strptime(record['dt'], '%Y-%m-%d %H:%M:%S'),
                 station=record['station'],
                 fof2=Decimal(record['fof2']) if record['fof2'] is not None else None,
@@ -65,38 +69,67 @@ def save_data(db: Session, records):
                 modified=datetime.strptime(record['modified'], '%Y-%m-%d %H:%M:%S'),
                 fof2_med_27_days=Decimal(record['fof2_med_27_days']) if record['fof2_med_27_days'] is not None else None
             )
+                db.add(ionospheric_data)
+            elif data_type == 'solar':
+                solar_data = SolarData(
+                    dt=datetime.strptime(record['time-tag'], '%Y-%m'),
+                    ssn=Decimal(record['ssn']) if record['ssn'] is not None else None,
+                    smoothed_ssn=Decimal(record['smoothed_ssn']) if record['smoothed_ssn'] is not None else None,
+                    observed_swpc_ssn=Decimal(record['observed_swpc_ssn']) if record['observed_swpc_ssn'] is not None else None,
+                    smoothed_swpc_ssn=Decimal(record['smoothed_swpc_ssn']) if record['smoothed_swpc_ssn'] is not None else None,
+                    f10_7=Decimal(record['f10.7']) if record['f10.7'] is not None else None,
+                    smoothed_f10_7=Decimal(record['smoothed_f10.7']) if record['smoothed_f10.7'] is not None else None,
+                )
+                db.add(solar_data)
             
-            db.add(ionospheric_data) 
             db.commit()  # Commit después de cada inserción
-            print(f"Data saved")
+            print(f"{data_type.capitalize()} data saved")
             time.sleep(1)
         except IntegrityError as e:
             db.rollback()  # Deshacer la transacción en caso de error
-            print(f"Error inserting data for record {record['dt']}: {e.orig}")  # Imprimir el error para depuración
+            if 'duplicate key value violates unique constraint' in str(e.orig):
+                print(f"Duplicate entry for {data_type} data: {record['dt'] if data_type == 'ionospheric' else record['time-tag']}. Skipping.")
+            else:
+                print(f"Error inserting {data_type} data for record {record['time-tag'] if data_type == 'solar' else record['dt']}: {e.orig}")
         except Exception as e:
             db.rollback()  # Deshacer la transacción en caso de error no esperado
-            print(f"Unexpected error for record {record['dt']}: {e}")
+            print(f"Unexpected error for {data_type} record {record['time-tag'] if data_type == 'solar' else record['dt']}: {e}")
 
 def fetch_ionospheric_data(start_time, end_time):
     url = f"{BASE_URL}{STATION_CODE}?filter=dt,bt,{start_time},{end_time}"
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
-        print(f"Data fetched from {start_time} to {end_time}")
-        time.sleep(1) 
-        with get_db_session() as db:  # Usar el context manager
-            save_data(db, data['records'])  # Pasa la sesión y los registros
+        print(f"Ionospheric data fetched from {start_time} to {end_time}")
+        time.sleep(1)
+        with get_db_session() as db:
+            save_data(db, data['records'], data_type='ionospheric')
     else:
-        print(f"Error fetching data: {response.status_code}")
+        print(f"Error fetching ionospheric data: {response.status_code}")
+
+def fetch_solar_data():
+    response = requests.get(SOLAR_URL)
+    if response.status_code == 200:
+        data = response.json()
+        if data:
+            last_record = data[-1]  # Obtiene el último registro
+            print(f"Solar data fetched: {last_record}")
+            with get_db_session() as db:
+                save_data(db, [last_record], data_type='solar')  # Envía solo el último registro
+        else:
+            print("No solar data found in the response.")
+    else:
+        print(f"Error fetching solar data: {response.status_code}")
 
 def main():
+    last_solar_fetch = None  # Para llevar un registro de la última descarga solar
+    print("Download client is running...\n")
     while True:
-        print("Download client is running...")
-
+        
         # Obtener el tiempo actual
         now = datetime.now()
         
-        # Calcular el tiempo de inicio y fin para la solicitud
+        # Calcular el tiempo de inicio y fin para la solicitud de datos ionosféricos
         end_time = now.replace(second=0, microsecond=0)  # Redondear al minuto
         start_time = end_time - timedelta(minutes=10)  # 10 minutos antes
         
@@ -104,11 +137,20 @@ def main():
         start_time_str = start_time.strftime('%Y-%m-%d %H:%M:%S')
         end_time_str = end_time.strftime('%Y-%m-%d %H:%M:%S')
 
-        # Hacer la solicitud
+        # Hacer la solicitud de datos ionosféricos
         fetch_ionospheric_data(start_time_str, end_time_str)
 
+        # Verificar si es el día de descargar datos solares
+        if now.day == MONTHLY_FETCH_DAY:
+            if last_solar_fetch is None or now.date() > last_solar_fetch.date():
+                fetch_solar_data()
+                print("today's a sunny day!!\n")
+                last_solar_fetch = now  # Actualizar la última fecha de descarga solar
+        else:
+            print("today's not a sunny day\n")
+
         # Esperar 10 minutos
-        time.sleep(3)  # Espera 300 segundos (5 minutos)
+        time.sleep(300)  # Espera 300 segundos (5 minutos)
 
 if __name__ == "__main__":
     main()
