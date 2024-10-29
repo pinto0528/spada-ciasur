@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Window from '../../components/widgets/window'; // Asegúrate de que la ruta sea correcta
 import Chart from '../../components/widgets/chart';
+import ProtectedRoute from '../../components/secure/protectedRoute'; 
 
 export default function HomePage() {
     const [isClient, setIsClient] = useState(false);
@@ -36,6 +37,7 @@ export default function HomePage() {
     };
 
     return (
+        <ProtectedRoute>
         <div>
             <h1>Welcome to the Dashboard</h1>
             <button onClick={handleOpenWindow}>Open new Window</button>
@@ -53,5 +55,6 @@ export default function HomePage() {
                 </Window>
             ))}
         </div>
+        </ProtectedRoute>
     );
 }

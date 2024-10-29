@@ -1,6 +1,7 @@
 "use client"; // Indica que este es un componente de cliente
 
 import { useEffect, useState } from 'react';
+import Login from '../../components/widgets/login';
 
 export default function HomePage() {
   const [isClient, setIsClient] = useState(false);
@@ -15,7 +16,9 @@ export default function HomePage() {
 
   return (
     <main>
-      <h1>Log In to SPADA!</h1>
+      <div>
+            <Login />
+      </div>
     </main>
   );
 }

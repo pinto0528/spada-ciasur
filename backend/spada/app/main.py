@@ -10,6 +10,7 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
 # Incluir los routers
+app.include_router(auth.router) 
 app.include_router(ionospheric_data.router)
 app.include_router(solar_data.router)
 app.include_router(averages.router)
