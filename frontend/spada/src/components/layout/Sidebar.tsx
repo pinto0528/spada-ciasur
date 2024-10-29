@@ -14,6 +14,9 @@ const Sidebar = () => {
           <li>
             <Link href="/settings">Settings</Link>
           </li>
+          <li>
+            <Link href="/login">Log In</Link>
+          </li>
         </ul>
       </nav>
     </div>
