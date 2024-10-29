@@ -1,11 +1,16 @@
+// src/components/Login.tsx
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { API_URL } from '../../utils/api';
+import '../../styles/loginForm.css';
+import Link from 'next/link';
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
+    const router = useRouter();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -24,16 +29,20 @@ const Login: React.FC = () => {
             console.log('Response body:', responseBody);
 
             if (!response.ok) {
-                throw new Error('Failed to log in');
+                setError(responseBody.detail || 'Failed to log in');
+                setSuccess(null);
+                return;
             }
 
-            // Asegúrate de que el token está en la respuesta
             const { token } = responseBody;
             if (token) {
-                // Almacena el token en localStorage
                 localStorage.setItem('authToken', token);
                 setSuccess('Logged in successfully!');
                 setError(null);
+                
+                setTimeout(() => {
+                    router.push('/home'); // Redirige a /home después de 2 segundos
+                }, 500);
             } else {
                 throw new Error('No token received');
             }
@@ -45,25 +54,32 @@ const Login: React.FC = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"
-                required
-            />
-            <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Contraseña"
-                required
-            />
-            <button type="submit">Login</button>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            {success && <p style={{ color: 'green' }}>{success}</p>}
-        </form>
+        <div className="form-container">
+            <form onSubmit={handleSubmit} className="login-form">
+                <h2>Login</h2>
+                <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Email"
+                    required
+                    className="input-field"
+                />
+                <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Contraseña"
+                    required
+                    className="input-field"
+                />
+                <button type="submit" className="login-button">Login</button>
+                {error && <p className="error-message">{error}</p>}
+                {success && <p className="success-message">{success}</p>}
+                
+                <Link className="register" href="/register">Crear nuevo usuario</Link>
+            </form>
+        </div> 
     );
 };
 
