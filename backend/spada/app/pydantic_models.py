@@ -55,3 +55,9 @@ class SolarData(BaseModel):
 
     class Config:
         orm_mode = True  # Permite que Pydantic use objetos ORM
+
+
+# Modelo Pydantic para login
+class LoginUser(BaseModel):
+    email: str
+    password: str

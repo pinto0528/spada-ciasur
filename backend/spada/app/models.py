@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, Numeric, Boolean, JSON, TIMESTAMP, Date
 from .database import Base
+from passlib.context import CryptContext
 
 class IonosphericData(Base):
     __tablename__ = "ionospheric_data"
@@ -50,3 +51,22 @@ class SolarData(Base):
     smoothed_swpc_ssn = Column(Numeric(5, 2), nullable=True)
     f10_7 = Column(Numeric(5, 2), nullable=True)
     smoothed_f10_7 = Column(Numeric(5, 2), nullable=True)
+    
+import bcrypt
+
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, index=True)
+    last_name = Column(String, index=True)
+    email = Column(String, unique=True, index=True)
+    hashed_password = Column(String)
+
+    pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+    def set_password(self, password: str):
+        self.hashed_password = self.pwd_context.hash(password)
+
+    def verify_password(self, password: str):
+        return self.pwd_context.verify(password, self.hashed_password)

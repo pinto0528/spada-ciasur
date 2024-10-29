@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import '../../styles/window.css';
-import ComboBox from './comboBoxEntrypoints'; // Asegúrate de importar ComboBox
-import Chart from '../../components/widgets/chart'; // Asegúrate de importar Chart
+import ComboBox from './comboBoxEntrypoints';
 
 interface WindowProps {
     title: string;
