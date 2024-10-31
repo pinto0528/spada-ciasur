@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from routers import auth, ionospheric_data, solar_data, averages
-from download_server import download_server
 from fastapi.middleware.cors import CORSMiddleware
 from .database import engine, Base
+from .admin import create_admin_user
 
 # Crear las tablas en la base de datos
 Base.metadata.create_all(bind=engine)
@@ -27,6 +27,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+create_admin_user()
 
 
 

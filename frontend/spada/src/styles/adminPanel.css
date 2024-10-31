@@ -1,0 +1,23 @@
+/* src/styles/adminPanel.css */
+.admin-panel {
+    padding: 20px;
+}
+
+.user-list table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.user-list th, .user-list td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+.user-list th {
+    background-color: #f2f2f2;
+}
+
+.error-message {
+    color: red;
+}

@@ -1,8 +1,7 @@
 "use client"; // Indica que este es un componente de cliente
 
 import { useEffect, useState } from 'react';
-import Login from '../../components/widgets/loginForm';
-
+import LoginForm from '../../components/widgets/loginForm'
 
 export default function HomePage() {
   const [isClient, setIsClient] = useState(false);
@@ -18,7 +17,7 @@ export default function HomePage() {
   return (
     <main>
       <div>
-            <Login />
+        <LoginForm isAdmin={true} />
       </div>
     </main>
   );
