@@ -5,7 +5,7 @@ import { API_URL } from '../../utils/api';
 import '../../styles/loginForm.css';
 import Link from 'next/link';
 
-const Login: React.FC = () => {
+const Login: React.FC<{ isAdmin?: boolean }> = ({ isAdmin = false }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
@@ -27,22 +27,33 @@ const Login: React.FC = () => {
             const responseBody = await response.json();
             console.log('Response status:', response.status);
             console.log('Response body:', responseBody);
-
+    
             if (!response.ok) {
                 setError(responseBody.detail || 'Failed to log in');
                 setSuccess(null);
                 return;
             }
-
-            const { token } = responseBody;
+    
+            const { token, is_admin } = responseBody;  // Asegúrate de que el backend devuelve si es admin
+            console.log('Token:', token);
+            console.log('Is Admin:', is_admin);
+    
             if (token) {
                 localStorage.setItem('authToken', token);
                 setSuccess('Logged in successfully!');
                 setError(null);
                 
-                setTimeout(() => {
-                    router.push('/home'); // Redirige a /home después de 2 segundos
-                }, 500);
+                if (isAdmin && is_admin) {
+                    console.log('Redirecting to /admin');
+                    setTimeout(() => {
+                        router.push('/admin'); // Redirige a /admin para admin
+                    }, 500);
+                } else {
+                    console.log('Redirecting to /home');
+                    setTimeout(() => {
+                        router.push('/home'); // Redirige a /home para usuarios normales
+                    }, 500);
+                }
             } else {
                 throw new Error('No token received');
             }
@@ -56,7 +67,16 @@ const Login: React.FC = () => {
     return (
         <div className="form-container">
             <form onSubmit={handleSubmit} className="login-form">
-                <h2>Login</h2>
+                <h2>{isAdmin ? 'Admin Login' : 'Login'}</h2>
+                {isAdmin ? 
+                <input
+                    type="text"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Email"
+                    required
+                    className="input-field"
+                /> : 
                 <input
                     type="email"
                     value={email}
@@ -64,7 +84,7 @@ const Login: React.FC = () => {
                     placeholder="Email"
                     required
                     className="input-field"
-                />
+                />}
                 <input
                     type="password"
                     value={password}

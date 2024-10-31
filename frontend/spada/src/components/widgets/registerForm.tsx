@@ -33,7 +33,7 @@ const Register: React.FC = () => {
                 return;
             }
 
-            setSuccess('User registered successfully!');
+            setSuccess('User registered successfully! Await admin approval');
             setError(null);
 
             setTimeout(() => {

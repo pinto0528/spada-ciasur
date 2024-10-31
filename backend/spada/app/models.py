@@ -54,6 +54,10 @@ class SolarData(Base):
     
 import bcrypt
 
+from sqlalchemy import Boolean, Column, Integer, String
+from passlib.context import CryptContext
+from .database import Base  # Asegúrate de importar la base correctamente
+
 class User(Base):
     __tablename__ = "users"
 
@@ -62,6 +66,8 @@ class User(Base):
     last_name = Column(String, index=True)
     email = Column(String, unique=True, index=True)
     hashed_password = Column(String)
+    is_admin = Column(Boolean, default=False)  # Nuevo campo para rol de administrador
+    is_active = Column(Boolean, default=False)  # Nuevo campo para autorización de acceso
 
     pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
