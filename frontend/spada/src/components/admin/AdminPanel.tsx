@@ -1,7 +1,6 @@
-// src/admin/AdminPanel.tsx
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import jwtDecode from 'jwt-decode'; // Asegúrate de que esta sea la forma correcta de importar
+import jwt from 'jsonwebtoken'; // Importa jsonwebtoken
 import { API_URL } from '../../utils/api';
 import UserList from './UserList';
 import '../../styles/adminPanel.css';
@@ -29,7 +28,7 @@ const AdminPanel: React.FC = () => {
         // Decodifica el token
         let isAdmin = false;
         try {
-            const decoded: DecodedToken = jwtDecode(token); // Usar jwtDecode para decodificar
+            const decoded: DecodedToken = jwt.decode(token) as DecodedToken; // Usa jwt.decode
             isAdmin = decoded.is_admin; // Verifica si es admin
         } catch (err) {
             console.error('Error decoding token:', err);
