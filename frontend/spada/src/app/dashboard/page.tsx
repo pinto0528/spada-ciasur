@@ -4,6 +4,10 @@ import { useEffect, useState } from 'react';
 import Window from '../../components/widgets/window'; // Asegúrate de que la ruta sea correcta
 import Chart from '../../components/widgets/chart';
 import ProtectedRoute from '../../components/secure/protectedRoute'; 
+import { Group } from "@chakra-ui/react"
+import { Button } from "@/components/ui/button"
+import { EmptyState } from "@/components/ui/empty-state"
+import { HiColorSwatch } from "react-icons/hi"
 
 export default function HomePage() {
     const [isClient, setIsClient] = useState(false);
@@ -40,7 +44,8 @@ export default function HomePage() {
         <ProtectedRoute>
         <div>
             <h1>Welcome to the Dashboard</h1>
-            <button onClick={handleOpenWindow}>Open new Window</button>
+            <br></br>
+            <Button onClick={handleOpenWindow}>Open new Window</Button>
 
             {windows.map(window => (
                 <Window

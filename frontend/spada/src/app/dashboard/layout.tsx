@@ -9,14 +9,10 @@ export const metadata = {
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <html lang="en">
-      <body>
         <div className="layout">
           <Sidebar />
           <main className="content">{children}</main>
         </div>
-      </body>
-    </html>
   );
 };
 
