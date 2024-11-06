@@ -11,8 +11,8 @@ export const metadata = {
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" suppressHydrationWarning={true}>
+      <body suppressHydrationWarning={true}>
       <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -21,8 +21,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           >
         <SidebarProvider>
           <AppSidebar />
-          <main>
-            <SidebarTrigger />
+          <SidebarTrigger />
+          <main className='w-full m-4'>
             {children}
           </main>
         </SidebarProvider>
