@@ -2,7 +2,7 @@ import React from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
 import { ThemeProvider } from "@/components/theme-provider"
-import "../../styles/global.css";
+import "../styles/global.css";
 
 export const metadata = {
   title: "SPADA",
@@ -11,8 +11,8 @@ export const metadata = {
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" suppressHydrationWarning={true}>
+      <body suppressHydrationWarning={true}>
       <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -21,8 +21,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           >
         <SidebarProvider>
           <AppSidebar />
-          <main>
-            <SidebarTrigger />
+          <SidebarTrigger />
+          <main className='w-full m-4'>
             {children}
           </main>
         </SidebarProvider>
