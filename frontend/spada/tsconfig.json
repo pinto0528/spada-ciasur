@@ -1,5 +1,10 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+      "next-themes/dist/types": ["node_modules/next-themes/types.d.ts"],
+    },
     "target": "es5",
     "lib": [
       "dom",

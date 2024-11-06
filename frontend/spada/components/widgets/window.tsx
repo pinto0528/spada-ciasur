@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import '../../styles/window.css';
+import '../../src/styles/window.css';
 import ComboBox from './comboBoxEntrypoints';
 
 interface WindowProps {

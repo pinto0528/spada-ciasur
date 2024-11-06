@@ -1,7 +1,7 @@
 "use client"; // Indica que este es un componente de cliente
 
-import { useEffect, useState } from 'react';
-import Register from '../../components/widgets/registerForm';
+import { useEffect, useState } from "react";
+import Register from "../../../components/widgets/registerForm";
 
 export default function HomePage() {
   const [isClient, setIsClient] = useState(false);
@@ -17,7 +17,7 @@ export default function HomePage() {
   return (
     <main>
       <div>
-            <Register />
+        <Register />
       </div>
     </main>
   );
