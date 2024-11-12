@@ -1,6 +1,6 @@
 import React from "react";
 import Sidebar from "../../components/layout/Sidebar";
- // Asegúrate de importar tus estilos globales
+// Asegúrate de importar tus estilos globales
 
 export const metadata = {
   title: "SPADA",
@@ -9,10 +9,10 @@ export const metadata = {
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-        <div className="layout">
-          <Sidebar />
-          <main className="content">{children}</main>
-        </div>
+    <div className="layout">
+      <Sidebar />
+      <main className="content">{children}</main>
+    </div>
   );
 };
 

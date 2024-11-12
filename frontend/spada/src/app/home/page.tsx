@@ -1,12 +1,14 @@
 "use client"; // Indica que este es un componente de cliente
 
 import { useEffect, useState } from 'react';
-import LandingPage from '../../components/landing/landing'
 import React from 'react';
 import { AboutUs } from '../../components/landing/aboutUs';
 import { Mission } from '../../components/landing/mission';
 import { Projects } from '../../components/landing/projects';
+import { Footer } from '../../components/layout/Footer'
+import { Banner }  from '../../components/widgets/banner'
 import '../../styles/landing.css';
+import { Box } from "@chakra-ui/react";
 
 export default function HomePage() {
   const [isClient, setIsClient] = useState(false);
@@ -20,12 +22,14 @@ export default function HomePage() {
   }
 
   return (
-    <div className="container">
-      <h1 className="title">CIASUR</h1>
-      <h2 className="subtitle">Centro de Investigación de la Atmósfera Superior y Radiotransmisiones</h2>
+    <div className="wrapper">
+      <Banner/> 
+      <div className="container"> 
       <AboutUs />
       <Mission />
       <Projects />
+      <Footer/>
+      </div>
     </div>
   );
 }
