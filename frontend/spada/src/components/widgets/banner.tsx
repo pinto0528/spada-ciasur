@@ -57,10 +57,10 @@ export const Banner = () => (
         }}
         
       >
-        <Heading size="6xl" style={{ fontSize: '13rem', marginBottom: '6vw'}}>
+        <Heading size="6xl" style={{ fontSize: '13rem', marginBottom: '12vh'}}>
           SPADA
         </Heading>
-        <Heading size="xl" fontWeight="normal" mt={2} style={{ fontSize: '1.5rem', marginBottom: '25vh'}}>
+        <Heading size="xl" fontWeight="normal" mt={2} style={{ fontSize: '1.7rem', marginBottom: '25vh'}}>
           Sistema de Procesamiento y Almacenamiento de Datos Atmosféricos
         </Heading>
       </Box>

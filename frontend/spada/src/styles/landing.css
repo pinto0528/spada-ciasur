@@ -5,8 +5,7 @@
 }
 
 .container {
-  padding: 10vw;
-  
+  padding: 7vw;
   overflow: hidden;
   }
   
@@ -26,9 +25,9 @@
   .section {
     padding: 20px;
     margin: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #5e5ef3;
     border-radius: 8px;
-    margin-bottom: 2vh;
+    margin-bottom: 8vh;
   }
   
   .section h2 {

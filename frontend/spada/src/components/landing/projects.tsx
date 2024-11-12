@@ -1,10 +1,11 @@
 // src/components/Projects.tsx
 import React from 'react';
 import { ProjectCard } from '../widgets/projectCard';
+import { Heading } from '@chakra-ui/react';
 
 export const Projects: React.FC = () => (
   <section className="section">
-    <h2>Proyectos</h2>
+    <Heading style={{marginBottom:'20px'}}>Proyectos</Heading>
     <ul>
       <li className='card'>
         <ProjectCard 

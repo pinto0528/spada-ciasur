@@ -4,10 +4,15 @@ import {
     AccordionItemTrigger,
     AccordionRoot,
   } from "@/components/ui/accordion"
+
+  import '../../styles/landing.css'
+import { Heading } from "@chakra-ui/react"
   
   const FAQ = () => {
     return (
-      <AccordionRoot collapsible defaultValue={["b"]}>
+      <section className="section">
+      <Heading style={{marginBottom: '20px'}}>FAQ's</Heading>
+      <AccordionRoot collapsible style={{marginBottom: '2vh'}}>
         {items.map((item, index) => (
           <AccordionItem key={index} value={item.value}>
             <AccordionItemTrigger>{item.title}</AccordionItemTrigger>
@@ -15,6 +20,7 @@ import {
           </AccordionItem>
         ))}
       </AccordionRoot>
+      </section>
     )
   }
   

@@ -4,10 +4,8 @@ import { useEffect, useState } from 'react';
 import Window from '../../components/widgets/window'; // Asegúrate de que la ruta sea correcta
 import Chart from '../../components/widgets/chart';
 import ProtectedRoute from '../../components/secure/protectedRoute'; 
-import { Group } from "@chakra-ui/react"
 import { Button } from "@/components/ui/button"
-import { EmptyState } from "@/components/ui/empty-state"
-import { HiColorSwatch } from "react-icons/hi"
+import { Box, Collapsible } from "@chakra-ui/react"
 
 export default function HomePage() {
     const [isClient, setIsClient] = useState(false);
@@ -42,17 +40,25 @@ export default function HomePage() {
 
     return (
         <ProtectedRoute>
-        <div>
-            <h1>Welcome to the Dashboard</h1>
-            <br></br>
-            <Button onClick={handleOpenWindow}>Open new Window</Button>
+        <div className='inner-content'>
+        <Collapsible.Root>
+            <Collapsible.Trigger paddingY="3"><h1>Dashboard</h1></Collapsible.Trigger>
+            <Collapsible.Content>
+            <Box padding="4" borderWidth="1px">
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry. Lorem Ipsum has been the industry's standard dummy text ever
+                since the 1500s, when an unknown printer took a galley of type and
+                scrambled it to make a type specimen book.
+            </Box>
+            </Collapsible.Content>
+        </Collapsible.Root>
+            <Button onClick={handleOpenWindow} marginY='5'>New Chart</Button>
 
             {windows.map(window => (
                 <Window
                     key={window.id}
-                    title={window.title}
                     onClose={() => handleCloseWindow(window.id)}
-                    initialPosition={window.position} // Pasar la posición inicial
+                    initialPosition={window.position}
                     onSelectEndpoint={(selectedEndpoint) => handleSelectEndpoint(window.id, selectedEndpoint)} // Pasar la función para seleccionar el endpoint
                 >
                     {/* Solo renderizar el gráfico si hay un endpoint seleccionado */}

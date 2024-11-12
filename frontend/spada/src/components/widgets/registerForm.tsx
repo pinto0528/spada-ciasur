@@ -49,7 +49,7 @@ const Register: React.FC = () => {
     return (
         <div className="form-container">
         <form onSubmit={handleSubmit} className="register-form">
-            <h2>Register</h2>
+            <h2>Sign Up</h2>
             <input
                 type="text"
                 value={name}

@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken'; // Importa jsonwebtoken
 import { API_URL } from '../../utils/api';
 import UserList from './UserList';
 import '../../styles/adminPanel.css';
+import { Heading } from '@chakra-ui/react';
 
 interface DecodedToken {
     sub: string;
@@ -72,7 +73,7 @@ const AdminPanel: React.FC = () => {
 
     return (
         <div className="admin-panel">
-            <h2>Admin Panel</h2>
+            <Heading style={{marginBottom:'15px', fontSize:'2rem'}}>Admin Panel</Heading>
             {error && <p className="error-message">{error}</p>}
             <UserList users={users} />
         </div>

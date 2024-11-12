@@ -7,8 +7,10 @@ import { Mission } from '../../components/landing/mission';
 import { Projects } from '../../components/landing/projects';
 import { Footer } from '../../components/layout/Footer'
 import { Banner }  from '../../components/widgets/banner'
+import FAQ from '../../components/widgets/FAQ'
 import '../../styles/landing.css';
 import { Box } from "@chakra-ui/react";
+import { Team } from '@/components/landing/team';
 
 export default function HomePage() {
   const [isClient, setIsClient] = useState(false);
@@ -28,6 +30,8 @@ export default function HomePage() {
       <AboutUs />
       <Mission />
       <Projects />
+      <Team/>
+      <FAQ/>
       <Footer/>
       </div>
     </div>

@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button"
 import {
-  DrawerActionTrigger,
   DrawerBackdrop,
   DrawerBody,
   DrawerCloseTrigger,
@@ -11,70 +10,67 @@ import {
   DrawerHeader,
   DrawerRoot,
   DrawerTitle,
-  DrawerTrigger,
 } from "@/components/ui/drawer"
 import { useState, useEffect } from "react"
-import { RiArrowRightLine, RiArrowLeftLine } from "react-icons/ri";
-import { Separator, Stack, Text, Link } from "@chakra-ui/react"
-import { motion } from 'framer-motion';
-import AnimatedButton from "./AnimatedButton";
-
+import { RiAccountCircleFill, RiHomeFill, RiLineChartFill, RiSettings3Fill, RiArrowRightLine } from "react-icons/ri";
+import { Separator, Stack, Link } from "@chakra-ui/react"
 
 const Sidebar = () => {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
   const [buttonVariant, setButtonVariant] = useState<'outline' | 'solid' | 'subtle' | 'ghost' | 'plain'>('outline');
 
   useEffect(() => {
     setButtonVariant('solid');
     const timer = setTimeout(() => {
       setButtonVariant('outline'); 
-    }, 2500);
+    }, 2200);
 
-    return () => clearTimeout(timer); // Limpiamos el temporizador si el componente se desmonta
+    return () => clearTimeout(timer);
   }, []);
 
   return (
     <DrawerRoot open={open} onOpenChange={(e) => setOpen(e.open)} placement="start">
       <DrawerBackdrop />
-      <DrawerTrigger asChild>
+      {/* Cambia el evento onClick por onMouseEnter y onMouseLeave */}
       <Button
         variant={buttonVariant}
         size="sm"
         style={{
           position: 'fixed',
           zIndex: 1,
-          top: '2vh',
+          top: '2.4vh',
           left: '1.5vw',
           padding: '0.8rem',
         }}
+        onMouseEnter={() => setOpen(true)} 
         data-state="open"
         _open={{
           animationName: "slide-to-right-full",
-          animationDuration: "500ms",
-          animationDelay: "2.5s"
+          animationDelay: "1.7s"
         }}
       >
         <RiArrowRightLine />
       </Button>
-      </DrawerTrigger>
-      <DrawerContent offset="4" rounded="md">
+
+      <DrawerContent offset="4" rounded="md" 
+        onMouseEnter={() => setOpen(true)}
+        onMouseLeave={() => setOpen(false)}>
         <DrawerHeader>
           <DrawerTitle>SPADA</DrawerTitle>
         </DrawerHeader>
         <DrawerBody>
-        <Stack>
-            <Link href="/home"> <RiArrowLeftLine/> Home</Link>
-            <Separator />
-            <Link href="/dashboard">Dashboard</Link>
-            <Separator />
-            <Link href="/settings">Settings</Link>
-            <Separator />
-            <Link href="/login">Sign in</Link>
-        </Stack>
+          <Stack>
+              <Link href="/home"> <RiHomeFill/> Home</Link>
+              <Separator />
+              <Link href="/dashboard"> <RiLineChartFill/> Dashboard</Link>
+              <Separator />
+              <Link href="/settings"> <RiSettings3Fill/> Settings</Link>
+              <Separator />
+              <Link href="/login"> <RiAccountCircleFill /> Sign in</Link>
+          </Stack>
         </DrawerBody>
         <DrawerFooter>
         </DrawerFooter>
-        <DrawerCloseTrigger />
       </DrawerContent>
     </DrawerRoot>
   )
