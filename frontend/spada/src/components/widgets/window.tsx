@@ -3,18 +3,16 @@ import '../../styles/window.css';
 import ComboBox from './comboBoxEntrypoints';
 
 interface WindowProps {
-    title: string;
     children: React.ReactNode;
     onClose: () => void;
     initialPosition: { x: number; y: number };
     onSelectEndpoint: (endpoint: string) => void; // Nueva prop para manejar la selección del endpoint
 }
 
-const Window: React.FC<WindowProps> = ({ title: initialTitle, children, onClose, initialPosition, onSelectEndpoint }) => {
+const Window: React.FC<WindowProps> = ({children, onClose, initialPosition, onSelectEndpoint }) => {
     const [position, setPosition] = useState(initialPosition);
     const [size, setSize] = useState({ width: 300, height: 200 });
     const [isMaximized, setIsMaximized] = useState(false);
-    const [title, setTitle] = useState(initialTitle);
     const [isEditing, setIsEditing] = useState(false);
     const titleInputRef = useRef<HTMLInputElement | null>(null);
     const isDragging = useRef(false);
@@ -79,10 +77,6 @@ const Window: React.FC<WindowProps> = ({ title: initialTitle, children, onClose,
         setIsEditing(true); // Activar el modo de edición
     };
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.target.value); // Actualizar el título en tiempo real
-    };
-
     const handleInputBlur = () => {
         setIsEditing(false); // Desactivar el modo de edición al salir del input
     };
@@ -99,33 +93,19 @@ const Window: React.FC<WindowProps> = ({ title: initialTitle, children, onClose,
                 flexDirection: 'column',
             }}
         >
-            <div
-                onMouseDown={handleMouseDown}
-                className="window-title"
-                onDoubleClick={handleDoubleClick}
-            >
-                {isEditing ? (
-                    <input
-                        type="text"
-                        value={title}
-                        onChange={handleInputChange}
-                        onBlur={handleInputBlur}
-                        ref={titleInputRef}
-                        autoFocus
-                        style={{ width: '100%', border: 'none', backgroundColor: 'transparent' }}
-                    />
-                ) : (
+            <div onMouseDown={handleMouseDown} className="window-title">
+                
                     <>
+                        <ComboBox onSelect={onSelectEndpoint} />
                         <button onClick={toggleMaximize} className="maximize-button">
                             {isMaximized ? '□' : '■'}
                         </button>
                         <button onClick={onClose} className="close-button">✖</button>
-                        {title}
                     </>
-                )}
+                
             </div>
             <div className="window-content" style={{ flex: 1 }}>
-                <ComboBox onSelect={onSelectEndpoint} /> {/* Aquí es donde colocas el ComboBox */}
+                 {/* Aquí es donde colocas el ComboBox */}
                 <div style={{ flex: 1, overflow: 'hidden' }}>
                     {children}
                 </div>

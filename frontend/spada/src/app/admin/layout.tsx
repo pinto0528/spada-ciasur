@@ -12,7 +12,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     <html lang="en">
       <body>
         <div className="layout">
-          <main className="content">{children}</main>
+        <Sidebar />
+          <div className="content">{children}</div>
         </div>
       </body>
     </html>

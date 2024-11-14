@@ -16,10 +16,9 @@ export default function HomePage() {
 
     return (
         <ProtectedRoute>
-            <main>
-                <h1>Welcome to Settings</h1>
-                {/* Resto del contenido */}
-            </main>
+            <div className='inner-content'>
+                <h1>Settings</h1>
+            </div>
         </ProtectedRoute>
     );
 }

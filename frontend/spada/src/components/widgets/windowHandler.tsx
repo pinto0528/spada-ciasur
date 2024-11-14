@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Window from './window';
 import Chart from './chart';
 import ComboBox from './comboBoxEntrypoints'; // Asegúrate de importar ComboBox
+import ComboBoxData from './comboBoxEntrypoints';
 
 const WindowHandler: React.FC = () => {
     const [windows, setWindows] = useState<{ id: number; title: string; endpoint: string; initialPosition: { x: number; y: number } }[]>([]);
@@ -29,12 +30,11 @@ const WindowHandler: React.FC = () => {
             {windows.map(window => (
                 <Window
                     key={window.id}
-                    title={window.title}
                     onClose={() => closeWindow(window.id)}
                     onSelectEndpoint={(endpoint) => handleSelectEndpoint(window.id, endpoint)} // Pasa el ID y el endpoint seleccionado
                     initialPosition={window.initialPosition} // Pasa la posición inicial
                 >
-                    <ComboBox onSelect={(endpoint) => handleSelectEndpoint(window.id, endpoint)} /> {/* ComboBox para seleccionar el endpoint */}
+                    <ComboBoxData onSelect={(endpoint) => handleSelectEndpoint(window.id, endpoint)} /> {/* ComboBox para seleccionar el endpoint */}
                     {window.endpoint && <Chart endpoint={window.endpoint} />} {/* Renderiza el gráfico solo si hay un endpoint */}
                 </Window>
             ))}

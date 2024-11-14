@@ -51,11 +51,11 @@ const UserList: React.FC<UserListProps> = ({ users }) => {
 
     return (
         <div className="user-list">
-            <h3>Pending Users</h3>
+            <h3 style={{marginBottom:'10px'}}>Pending Users</h3>
             <table>
                 <thead>
                     <tr>
-                        <th>Name</th>
+                        <th>First Name</th>
                         <th>Last Name</th>
                         <th>Email</th>
                         <th>Actions</th>

@@ -2,6 +2,7 @@
 
 import React, { ReactNode, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Box, AbsoluteCenter, Center, Circle, Square, Spinner } from "@chakra-ui/react"
 
 interface ProtectedRouteProps {
     children: ReactNode;
@@ -30,7 +31,14 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 
     // Si está en estado de carga, muestra un mensaje o un indicador de carga
     if (loading) {
-        return <div>Cargando...</div>;
+        return(
+        <div>
+        <Box>
+            <AbsoluteCenter>
+            <Spinner color="#5e5ef3" borderWidth="4px" size='xl' />
+            </AbsoluteCenter>
+        </Box>    
+        </div>);
     }
 
     // Si no está autenticado y ya se verificó, muestra el mensaje y no carga los hijos
