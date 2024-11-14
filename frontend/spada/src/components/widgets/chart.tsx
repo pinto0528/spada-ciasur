@@ -22,7 +22,14 @@ const Chart: React.FC<{ endpoint: string }> = ({ endpoint }) => {
                 }
 
                 const json = await response.json();
-                const labels = json.map((item: any) => new Date(item.avg_time).toLocaleTimeString());
+                const labels = json.map((item: any) =>
+                    new Date(item.avg_time).toLocaleString('en-US', {
+                        year: 'numeric', // Año con 4 dígitos
+                        month: 'numeric',   // Nombre completo del mes
+                        day: 'numeric',  // Día del mes
+                        hour: 'numeric', // Hora
+                    })
+                );
 
                 const getRandomColor = () => {
                     const r = Math.floor(Math.random() * 256);

@@ -13,6 +13,9 @@ const ComboBox: React.FC<ComboBoxProps> = ({ onSelect }) => {
         { label: 'Ionospheric Hourly', value: `${API_URL}/averages?data_type=ionospheric&interval=hourly` },
         { label: 'Ionospheric Daily', value: `${API_URL}/averages?data_type=ionospheric&interval=daily` },
         { label: 'Ionospheric Monthly', value: `${API_URL}/averages?data_type=ionospheric&interval=monthly` },
+        { label: 'NmF2 Hourly', value: `${API_URL}/averages?data_type=nmf2&interval=hourly` },
+        { label: 'NmF2 Daily', value: `${API_URL}/averages?data_type=nmf2&interval=daily` },
+        { label: 'NmF2 Monthly', value: `${API_URL}/averages?data_type=nmf2&interval=monthly` },
     ];
 
     return (
