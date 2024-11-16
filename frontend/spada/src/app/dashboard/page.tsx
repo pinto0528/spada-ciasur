@@ -6,6 +6,8 @@ import Chart from '../../components/widgets/chart';
 import ProtectedRoute from '../../components/secure/protectedRoute'; 
 import { Button } from "@/components/ui/button"
 import { Box, Collapsible } from "@chakra-ui/react"
+import SearchHandler from '@/components/dashboard/SearchHandler';
+import NewWindowHandler from '@/components/dashboard/NewWindowHandler';
 
 export default function HomePage() {
     const [isClient, setIsClient] = useState(false);
@@ -65,6 +67,7 @@ export default function HomePage() {
                     {window.endpoint && <Chart endpoint={window.endpoint} />} 
                 </Window>
             ))}
+            <NewWindowHandler/>
         </div>
         </ProtectedRoute>
     );
