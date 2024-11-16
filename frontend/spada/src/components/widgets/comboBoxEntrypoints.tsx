@@ -13,11 +13,14 @@ const ComboBox: React.FC<ComboBoxProps> = ({ onSelect }) => {
         { label: 'Ionospheric Hourly', value: `${API_URL}/averages?data_type=ionospheric&interval=hourly` },
         { label: 'Ionospheric Daily', value: `${API_URL}/averages?data_type=ionospheric&interval=daily` },
         { label: 'Ionospheric Monthly', value: `${API_URL}/averages?data_type=ionospheric&interval=monthly` },
+        { label: 'NmF2 Hourly', value: `${API_URL}/averages?data_type=nmf2&interval=hourly` },
+        { label: 'NmF2 Daily', value: `${API_URL}/averages?data_type=nmf2&interval=daily` },
+        { label: 'NmF2 Monthly', value: `${API_URL}/averages?data_type=nmf2&interval=monthly` },
     ];
 
     return (
-        <select style={{maxWidth: '20%'}} onChange={(e) => onSelect(e.target.value)} defaultValue="">
-            <option  value="" disabled>Select an endpoint</option>
+        <select style={{maxWidth: '30%', margin: '5px 0px 5px 5px'}} onChange={(e) => onSelect(e.target.value)} defaultValue="">
+            <option  value="" disabled></option>
             {options.map(option => (
                 <option key={option.value} value={option.value}>
                     {option.label}

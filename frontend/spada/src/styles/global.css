@@ -4,15 +4,28 @@
   
 .content {
     flex: 1;
-    padding: 20px;
-    background-color: #23262d;
+    background-color: #09090b;
+    width:100vw;
+    min-height:100vh;
   }
 
+.inner-content {
+    padding: 15px 15px 15px 15px;
+    margin: 2vw 8vw 0vw 8vw;
+    min-height: 90vh;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 2vh;
+}
+
+.inner-content h1{
+    font-size: 2rem;
+}
+
 html, body {
-    height: 100%;
+    width:100%;
     margin: 0;
     color: white;
     font-family: Arial, sans-serif;
-    overflow: hidden;
   }
 

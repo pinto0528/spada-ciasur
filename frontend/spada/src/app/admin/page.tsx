@@ -15,10 +15,8 @@ export default function HomePage() {
   }
 
   return (
-    <main>
       <div>
         <AdminPanel />
       </div>
-    </main>
   );
 }

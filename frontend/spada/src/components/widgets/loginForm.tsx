@@ -67,7 +67,7 @@ const Login: React.FC<{ isAdmin?: boolean }> = ({ isAdmin = false }) => {
     return (
         <div className="form-container">
             <form onSubmit={handleSubmit} className="login-form">
-                <h2>{isAdmin ? 'Admin Login' : 'Login'}</h2>
+                <h2>{isAdmin ? 'Admin Login' : 'Sign in'}</h2>
                 {isAdmin ? 
                 <input
                     type="text"
@@ -93,11 +93,11 @@ const Login: React.FC<{ isAdmin?: boolean }> = ({ isAdmin = false }) => {
                     required
                     className="input-field"
                 />
-                <button type="submit" className="login-button">Login</button>
+                <button type="submit" className="login-button">Sign in</button>
                 {error && <p className="error-message">{error}</p>}
                 {success && <p className="success-message">{success}</p>}
                 
-                <Link className="register" href="/register">Crear nuevo usuario</Link>
+                <Link className="register" href="/register">New user</Link>
             </form>
         </div> 
     );
