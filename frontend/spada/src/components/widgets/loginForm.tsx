@@ -5,6 +5,7 @@ import { API_URL } from '../../utils/api';
 import '../../styles/loginForm.css';
 import Link from 'next/link';
 
+
 const Login: React.FC<{ isAdmin?: boolean }> = ({ isAdmin = false }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -43,7 +44,20 @@ const Login: React.FC<{ isAdmin?: boolean }> = ({ isAdmin = false }) => {
                 setSuccess('Logged in successfully!');
                 setError(null);
 
-                window.dispatchEvent(new Event('sessionUpdated'));
+            const userResponse = await fetch(`${API_URL}/api/users/me`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({ email }), // Enviamos el email en el cuerpo de la solicitud
+            });
+
+            const userData = await userResponse.json();
+
+            if (userResponse.ok) {
+                localStorage.setItem('userInfo', JSON.stringify(userData)); // Guardamos la información en localStorage
+            }
                 
                 if (isAdmin && is_admin) {
                     console.log('Redirecting to /admin');

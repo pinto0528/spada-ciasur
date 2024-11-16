@@ -79,12 +79,12 @@ const Sidebar = () => {
             <Link href="/settings">
               <RiSettings3Fill /> Settings
             </Link>
-            <Separator />
-            {/* Agrega el SessionButton aquí */}
-            <SessionButton onSessionChange={handleSessionChange}/>
+            
           </Stack>
         </DrawerBody>
-        <DrawerFooter></DrawerFooter>
+        <DrawerFooter>
+        <SessionButton onSessionChange={handleSessionChange}/>
+        </DrawerFooter>
       </DrawerContent>
     </DrawerRoot>
   );

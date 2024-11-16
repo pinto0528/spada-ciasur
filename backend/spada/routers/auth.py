@@ -7,7 +7,7 @@ import jwt
 from dotenv import load_dotenv
 from requests import Session
 from app.models import User as UserModel
-from app.pydantic_models import LoginUser as LoginUser
+from app.pydantic_models import LoginUser, EmailRequest, UserResponse
 from app.database import SessionLocal, get_db
 from app.admin import get_current_user
 
@@ -58,7 +58,7 @@ async def login(user: LoginUser):
 
     return {
         "token": token,
-        "is_admin": db_user.is_admin  # Esto aún puede quedar si deseas
+        "is_admin": db_user.is_admin
     }
 
 
@@ -117,6 +117,24 @@ async def reject_user(user_id: int, db: Session = Depends(get_db)):
     db.delete(user)
     db.commit()
     return {"message": "User rejected"}
+
+
+@router.post("/api/users/me", response_model=UserResponse)
+async def get_user_by_email(email_request: EmailRequest):
+    db = SessionLocal()
+    db_user = db.query(UserModel).filter(UserModel.email == email_request.email).first()
+
+    if not db_user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    return UserResponse(
+        name=db_user.name,
+        last_name=db_user.last_name,
+        email=db_user.email,
+        is_active=db_user.is_active,
+        is_admin=db_user.is_admin
+    ) 
+
 
 
 

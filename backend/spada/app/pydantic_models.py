@@ -61,3 +61,14 @@ class SolarData(BaseModel):
 class LoginUser(BaseModel):
     email: str
     password: str
+
+class EmailRequest(BaseModel):
+    email: str
+
+class UserResponse(BaseModel):
+    name: str
+    last_name: str
+    email: str
+
+    class Config:
+        orm_mode = True

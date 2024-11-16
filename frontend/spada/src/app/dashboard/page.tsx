@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Box, Collapsible } from "@chakra-ui/react"
 import SearchHandler from '@/components/dashboard/SearchHandler';
 import NewWindowHandler from '@/components/dashboard/NewWindowHandler';
+import { RiLineChartFill } from "react-icons/ri";
 
 export default function HomePage() {
     const [isClient, setIsClient] = useState(false);
@@ -43,30 +44,10 @@ export default function HomePage() {
     return (
         <ProtectedRoute>
         <div className='inner-content'>
-        <Collapsible.Root>
-            <Collapsible.Trigger paddingY="3"><h1>Dashboard</h1></Collapsible.Trigger>
-            <Collapsible.Content>
-            <Box padding="4" borderWidth="1px">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy text ever
-                since the 1500s, when an unknown printer took a galley of type and
-                scrambled it to make a type specimen book.
-            </Box>
-            </Collapsible.Content>
-        </Collapsible.Root>
-            <Button onClick={handleOpenWindow} marginY='5'>New Chart</Button>
-
-            {windows.map(window => (
-                <Window
-                    key={window.id}
-                    onClose={() => handleCloseWindow(window.id)}
-                    initialPosition={window.position}
-                    onSelectEndpoint={(selectedEndpoint) => handleSelectEndpoint(window.id, selectedEndpoint)} // Pasar la función para seleccionar el endpoint
-                >
-                    {/* Solo renderizar el gráfico si hay un endpoint seleccionado */}
-                    {window.endpoint && <Chart endpoint={window.endpoint} />} 
-                </Window>
-            ))}
+        <div style={{display:'flex', flexDirection:'row'}}>
+                <h1 style={{marginTop:'7px', marginRight:"5px"}}><RiLineChartFill /></h1>
+                <h1>Dashboard</h1>
+            </div>
             <NewWindowHandler/>
         </div>
         </ProtectedRoute>
