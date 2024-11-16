@@ -34,7 +34,7 @@ const Login: React.FC<{ isAdmin?: boolean }> = ({ isAdmin = false }) => {
                 return;
             }
     
-            const { token, is_admin } = responseBody;  // Asegúrate de que el backend devuelve si es admin
+            const { token, is_admin } = responseBody;
             console.log('Token:', token);
             console.log('Is Admin:', is_admin);
     
@@ -42,16 +42,18 @@ const Login: React.FC<{ isAdmin?: boolean }> = ({ isAdmin = false }) => {
                 localStorage.setItem('authToken', token);
                 setSuccess('Logged in successfully!');
                 setError(null);
+
+                window.dispatchEvent(new Event('sessionUpdated'));
                 
                 if (isAdmin && is_admin) {
                     console.log('Redirecting to /admin');
                     setTimeout(() => {
-                        router.push('/admin'); // Redirige a /admin para admin
+                        router.push('/admin');
                     }, 500);
                 } else {
                     console.log('Redirecting to /home');
                     setTimeout(() => {
-                        router.push('/home'); // Redirige a /home para usuarios normales
+                        router.push('/home?refresh=true');
                     }, 500);
                 }
             } else {
