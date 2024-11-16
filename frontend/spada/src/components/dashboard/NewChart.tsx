@@ -61,7 +61,7 @@ const Chart: React.FC<{ endpoint: string }> = ({ endpoint }) => {
         };
 
         fetchData();
-    }, [endpoint]);
+    }, [endpoint]);  // Usamos el endpoint como dependencia
 
     if (loading) {
         return <div>Loading...</div>;
@@ -76,7 +76,7 @@ const Chart: React.FC<{ endpoint: string }> = ({ endpoint }) => {
     }
 
     return (
-        <div style={{ width: '100%', height: '90%', position: 'relative' }}>
+        <div style={{ width: '100%', height: '80%', position: 'relative' }}>
             <Line data={data} options={{ responsive: true, maintainAspectRatio: false }} />
         </div>
     );
