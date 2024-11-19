@@ -105,7 +105,6 @@ const Window: React.FC<WindowProps> = ({children, onClose, initialPosition, onSe
                 
             </div>
             <div className="window-content" style={{ flex: 1 }}>
-                 {/* Aquí es donde colocas el ComboBox */}
                 <div style={{ flex: 1, overflow: 'hidden' }}>
                     {children}
                 </div>

@@ -23,7 +23,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
         } else {
             setShowMessage(true);
             setTimeout(() => {
-                router.push('/login'); 
+                router.push('/home'); 
             }, 2500);
         }
 
