@@ -5,6 +5,7 @@ import { API_URL } from '../../utils/api';
 import '../../styles/loginForm.css';
 import Link from 'next/link';
 
+
 const Login: React.FC<{ isAdmin?: boolean }> = ({ isAdmin = false }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -34,7 +35,7 @@ const Login: React.FC<{ isAdmin?: boolean }> = ({ isAdmin = false }) => {
                 return;
             }
     
-            const { token, is_admin } = responseBody;  // Asegúrate de que el backend devuelve si es admin
+            const { token, is_admin } = responseBody;
             console.log('Token:', token);
             console.log('Is Admin:', is_admin);
     
@@ -42,16 +43,31 @@ const Login: React.FC<{ isAdmin?: boolean }> = ({ isAdmin = false }) => {
                 localStorage.setItem('authToken', token);
                 setSuccess('Logged in successfully!');
                 setError(null);
+
+            const userResponse = await fetch(`${API_URL}/api/users/me`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({ email }), // Enviamos el email en el cuerpo de la solicitud
+            });
+
+            const userData = await userResponse.json();
+
+            if (userResponse.ok) {
+                localStorage.setItem('userInfo', JSON.stringify(userData)); // Guardamos la información en localStorage
+            }
                 
                 if (isAdmin && is_admin) {
                     console.log('Redirecting to /admin');
                     setTimeout(() => {
-                        router.push('/admin'); // Redirige a /admin para admin
+                        router.push('/admin');
                     }, 500);
                 } else {
                     console.log('Redirecting to /home');
                     setTimeout(() => {
-                        router.push('/home'); // Redirige a /home para usuarios normales
+                        router.push('/home?refresh=true');
                     }, 500);
                 }
             } else {

@@ -4,6 +4,8 @@ import DataSelector from './DataSelector';
 import DateSelector from './DateSelector';
 import SearchButton from './SearchButton';
 
+import { API_URL } from '../../utils/api';
+
 interface SearchHandlerProps {
   onSelectEndpoint: (endpoint: string) => void;  // Nueva prop para pasar el endpoint al padre
 }
@@ -36,7 +38,7 @@ const SearchHandler: React.FC<SearchHandlerProps> = ({ onSelectEndpoint }) => {
 
   // Función para realizar la búsqueda
   const handleSearch = async () => {
-    const endpoint = `http://localhost:8000/averages-by-date?data_type=${dataType}&interval=${interval}&start_date=${startDate}&end_date=${endDate}`;
+    const endpoint = `${API_URL}/averages-by-date?data_type=${dataType}&interval=${interval}&start_date=${startDate}&end_date=${endDate}`;
     onSelectEndpoint(endpoint);  // Pasamos el endpoint al componente padre
 
     try {
@@ -49,7 +51,7 @@ const SearchHandler: React.FC<SearchHandlerProps> = ({ onSelectEndpoint }) => {
   };
 
   return (
-    <div>
+    <div style={{display:'flex', flexDirection:'row', padding:'5px', alignItems:'center'}}>
       <AverageSelector onChange={handleIntervalChange} />
       <DataSelector onChange={handleDataTypeChange} />
       <DateSelector onChange={handleDateChange} />

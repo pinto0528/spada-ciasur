@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, LineElement, PointElement, LinearScale, CategoryScale, Tooltip, Legend, Title } from 'chart.js';
+import { Box, AbsoluteCenter, Center, Circle, Square, Spinner } from "@chakra-ui/react"
+
 
 // Registrar los componentes necesarios
 ChartJS.register(LineElement, PointElement, LinearScale, CategoryScale, Tooltip, Legend, Title);
@@ -24,10 +26,10 @@ const Chart: React.FC<{ endpoint: string }> = ({ endpoint }) => {
                 const json = await response.json();
                 const labels = json.map((item: any) =>
                     new Date(item.avg_time).toLocaleString('en-US', {
-                        year: 'numeric', // Año con 4 dígitos
-                        month: 'numeric',   // Nombre completo del mes
-                        day: 'numeric',  // Día del mes
-                        hour: 'numeric', // Hora
+                        year: 'numeric',
+                        month: 'numeric',
+                        day: 'numeric',
+                        hour: 'numeric',
                     })
                 );
 
@@ -64,7 +66,14 @@ const Chart: React.FC<{ endpoint: string }> = ({ endpoint }) => {
     }, [endpoint]);  // Usamos el endpoint como dependencia
 
     if (loading) {
-        return <div>Loading...</div>;
+        return( 
+        <div>
+            <Box>
+            <AbsoluteCenter>
+            <Spinner color="#5e5ef3" borderWidth="4px" size='xl' />
+            </AbsoluteCenter>
+            </Box> 
+        </div>);
     }
 
     if (error) {
@@ -76,7 +85,8 @@ const Chart: React.FC<{ endpoint: string }> = ({ endpoint }) => {
     }
 
     return (
-        <div style={{ width: '100%', height: '80%', position: 'relative' }}>
+        <div style={{ width: '100%', height: '80%', position: 'relative', padding:'10px'}}>
+            
             <Line data={data} options={{ responsive: true, maintainAspectRatio: false }} />
         </div>
     );

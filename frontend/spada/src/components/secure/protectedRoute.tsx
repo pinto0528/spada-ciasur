@@ -3,6 +3,7 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Box, AbsoluteCenter, Center, Circle, Square, Spinner } from "@chakra-ui/react"
+import { Alert } from "@/components/ui/alert"
 
 interface ProtectedRouteProps {
     children: ReactNode;
@@ -22,8 +23,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
         } else {
             setShowMessage(true);
             setTimeout(() => {
-                router.push('/login'); 
-            }, 2000);
+                router.push('/home'); 
+            }, 2500);
         }
 
         setLoading(false); // Finaliza la carga una vez verificado
@@ -43,7 +44,15 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 
     // Si no está autenticado y ya se verificó, muestra el mensaje y no carga los hijos
     if (!isAuthenticated) {
-        return <div style={{ color: 'red' }}>Debes estar autorizado para acceder a esta página. Redirigiendo...</div>;
+        return <div style={{ color: 'red' }}>
+            <Box>
+            <AbsoluteCenter>
+            <Alert status="error" title="User not autenticated">
+                Debes estar autorizado para acceder a esta página. Redirigiendo...
+            </Alert>
+            </AbsoluteCenter>
+            </Box>
+            </div>;
     }
 
     // Si está autenticado, renderiza los hijos

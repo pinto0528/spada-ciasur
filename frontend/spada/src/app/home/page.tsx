@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import React from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { AboutUs } from '../../components/landing/aboutUs';
 import { Mission } from '../../components/landing/mission';
 import { Projects } from '../../components/landing/projects';
@@ -14,10 +15,21 @@ import { Team } from '@/components/landing/team';
 
 export default function HomePage() {
   const [isClient, setIsClient] = useState(false);
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     setIsClient(true);
-  }, []);
+
+    // Verifica si el parámetro refresh=true está en la URL
+    if (searchParams.get('refresh') === 'true') {
+      // Elimina el parámetro de la URL
+      const newUrl = '/home';
+      window.history.replaceState(null, '', newUrl);
+
+      // Fuerza un refresco de la página
+      window.location.reload();
+    }
+  }, [searchParams]);
 
   if (!isClient) {
     return null;

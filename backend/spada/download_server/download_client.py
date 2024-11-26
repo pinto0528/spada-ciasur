@@ -149,7 +149,6 @@ def main():
         else:
             print("today's not a sunny day\n")
 
-        # Esperar 10 minutos
         time.sleep(300)  # Espera 300 segundos (5 minutos)
 
 if __name__ == "__main__":

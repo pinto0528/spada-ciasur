@@ -1,25 +1,30 @@
-import React, { useState, useRef } from 'react';
-import '../../styles/window.css';
-import SearchHandler from './SearchHandler';  // Importamos el SearchHandler
-import Chart from './NewChart';
+import React, { useState, useRef } from "react";
+import "../../styles/window.css";
+import SearchHandler from "./SearchHandler";
+import Chart from "./NewChart";
+import { EmptyState } from "@/components/ui/empty-state";
 
 interface WindowProps {
     children: React.ReactNode;
     onClose: () => void;
     initialPosition: { x: number; y: number };
-    onSelectEndpoint: (endpoint: string) => void; // Nueva prop para manejar la selección del endpoint
+    onSelectEndpoint: (endpoint: string) => void;
 }
 
-const NewWindow: React.FC<WindowProps> = ({children, onClose, initialPosition, onSelectEndpoint }) => {
+const NewWindow: React.FC<WindowProps> = ({ onClose, initialPosition, onSelectEndpoint }) => {
+    const MIN_WIDTH = 650; // Tamaño mínimo de ancho
+    const MIN_HEIGHT = 300; // Tamaño mínimo de alto
+
     const [position, setPosition] = useState(initialPosition);
-    const [size, setSize] = useState({ width: 300, height: 200 });
+    const [size, setSize] = useState({ width: MIN_WIDTH, height: MIN_HEIGHT });
     const [isMaximized, setIsMaximized] = useState(false);
-    const [selectedEndpoint, setSelectedEndpoint] = useState<string>(''); // Estado para el endpoint seleccionado
+    const [selectedEndpoint, setSelectedEndpoint] = useState<string>("");
+
     const isDragging = useRef(false);
     const dragStartPosition = useRef({ x: 0, y: 0 });
     const isResizing = useRef(false);
     const resizeStart = useRef({ width: 0, height: 0, x: 0, y: 0 });
-    
+
     const handleMouseDown = (e: React.MouseEvent) => {
         isDragging.current = true;
         dragStartPosition.current = { x: e.clientX - position.x, y: e.clientY - position.y };
@@ -34,8 +39,8 @@ const NewWindow: React.FC<WindowProps> = ({children, onClose, initialPosition, o
         }
         if (isResizing.current) {
             setSize({
-                width: resizeStart.current.width + (e.clientX - resizeStart.current.x),
-                height: resizeStart.current.height + (e.clientY - resizeStart.current.y),
+                width: Math.max(MIN_WIDTH, resizeStart.current.width + (e.clientX - resizeStart.current.x)),
+                height: Math.max(MIN_HEIGHT, resizeStart.current.height + (e.clientY - resizeStart.current.y)),
             });
         }
     };
@@ -46,11 +51,11 @@ const NewWindow: React.FC<WindowProps> = ({children, onClose, initialPosition, o
     };
 
     React.useEffect(() => {
-        document.addEventListener('mousemove', handleMouseMove);
-        document.addEventListener('mouseup', handleMouseUp);
+        document.addEventListener("mousemove", handleMouseMove);
+        document.addEventListener("mouseup", handleMouseUp);
         return () => {
-            document.removeEventListener('mousemove', handleMouseMove);
-            document.removeEventListener('mouseup', handleMouseUp);
+            document.removeEventListener("mousemove", handleMouseMove);
+            document.removeEventListener("mouseup", handleMouseUp);
         };
     }, []);
 
@@ -62,23 +67,19 @@ const NewWindow: React.FC<WindowProps> = ({children, onClose, initialPosition, o
     const toggleMaximize = () => {
         if (isMaximized) {
             setPosition(initialPosition);
-            setSize({ width: 500, height: 300 }); // O el tamaño que desees por defecto
+            setSize({ width: MIN_WIDTH, height: MIN_HEIGHT });
         } else {
-            setPosition({ x: 0, y: 0 }); // Centrar en la pantalla
-            setSize({ 
-                width: window.innerWidth - 50, // Ajustar un poco para evitar la barra de desplazamiento
-                height: window.innerHeight - 50 // Ajustar un poco para evitar la barra de desplazamiento
-            }); 
+            setPosition({ x: 0, y: 0 });
+            setSize({
+                width: window.innerWidth - 50,
+                height: window.innerHeight - 50,
+            });
         }
         setIsMaximized(!isMaximized);
     };
 
-    const handleInputBlur = () => {
-        // Desactivar el modo de edición al salir del input
-    };
-
     const handleEndpointSelection = (endpoint: string) => {
-        setSelectedEndpoint(endpoint);  // Guardamos el endpoint seleccionado
+        setSelectedEndpoint(endpoint);
     };
 
     return (
@@ -87,26 +88,35 @@ const NewWindow: React.FC<WindowProps> = ({children, onClose, initialPosition, o
             style={{
                 top: isMaximized ? 0 : position.y,
                 left: isMaximized ? 0 : position.x,
-                width: isMaximized ? '100vw' : `${size.width}px`,
-                height: isMaximized ? '100vh' : `${size.height}px`,
-                display: 'flex',
-                flexDirection: 'column',
+                width: isMaximized ? "100vw" : `${size.width}px`,
+                height: isMaximized ? "100vh" : `${size.height}px`,
+                display: "flex",
+                flexDirection: "column",
             }}
         >
             <div onMouseDown={handleMouseDown} className="window-title">
                 <>
-                    <SearchHandler onSelectEndpoint={handleEndpointSelection} />  {/* Usamos el SearchHandler */}
+                    <SearchHandler onSelectEndpoint={handleEndpointSelection} />
                     <button onClick={toggleMaximize} className="maximize-button">
-                        {isMaximized ? '□' : '■'}
+                        {isMaximized ? "□" : "■"}
                     </button>
-                    <button onClick={onClose} className="close-button">✖</button>
+                    <button onClick={onClose} className="close-button">
+                        ✖
+                    </button>
                 </>
             </div>
-            <div className="window-content" style={{ flex: 1 }}>
-                {/* Si hay un endpoint seleccionado, mostramos el gráfico */}
-                <div style={{ flex: 1, overflow: 'hidden' }}>
-                    {selectedEndpoint && <Chart endpoint={selectedEndpoint} />}
-                </div>
+
+            <div className="window-content" style={{ flex: 1, position: "relative" }}>
+                {selectedEndpoint ? (
+                    <div style={{ flex: 1, overflow: "hidden" }}>
+                        <Chart endpoint={selectedEndpoint} />
+                    </div>
+                ) : (
+                    <EmptyState
+                        title="No data selected"
+                        description="Use the search bar to select a dataset."
+                    />
+                )}
                 <div onMouseDown={handleResizeMouseDown} className="window-resize" />
             </div>
         </div>
