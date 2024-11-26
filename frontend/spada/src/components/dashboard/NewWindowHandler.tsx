@@ -27,19 +27,21 @@ const NewWindowHandler: React.FC = () => {
 
     return (
         <div>
+            
             <Button variant='surface' onClick={openWindow}>New Chart</Button>
             {windows.map(window => (
+                
                 <Window
                     key={window.id}
                     onClose={() => closeWindow(window.id)}
-                    onSelectEndpoint={(endpoint) => handleSelectEndpoint(window.id, endpoint)} // Pasa el ID y el endpoint seleccionado
-                    initialPosition={window.initialPosition} // Pasa la posición inicial
+                    onSelectEndpoint={(endpoint) => handleSelectEndpoint(window.id, endpoint)}
+                    initialPosition={window.initialPosition}
                 >   
                     
                     <SearchHandler 
-                        onSelectEndpoint={(endpoint: string) => handleSelectEndpoint(window.id, endpoint)} // Utiliza el nuevo SearchHandler para seleccionar el endpoint
+                        onSelectEndpoint={(endpoint: string) => handleSelectEndpoint(window.id, endpoint)}
                     />
-                    {window.endpoint && <Chart endpoint={window.endpoint} />} {/* Renderiza el gráfico solo si hay un endpoint */}
+                    {window.endpoint && <Chart endpoint={window.endpoint} />} 
                 </Window>
             ))}
         </div>
