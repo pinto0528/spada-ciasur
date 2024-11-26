@@ -17,7 +17,7 @@ from decimal import Decimal
 # Constantes
 STATION_CODE = "wstuj2o_auto"  # Código de la estación
 BASE_URL = "http://ws-eswua.rm.ingv.it/ais.php/records/"
-SOLAR_URL = "https://services.swpc.noaa.gov/json/solar-cycle/observed-solar-cycle-indices.json"
+SOLAR_URL = "w"
 MONTHLY_FETCH_DAY = 1  # Día del mes para descargar datos solares
 
 @contextmanager

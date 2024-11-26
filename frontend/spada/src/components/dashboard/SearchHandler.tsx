@@ -3,6 +3,8 @@ import AverageSelector from './AverageSelector';
 import DataSelector from './DataSelector';
 import DateSelector from './DateSelector';
 import SearchButton from './SearchButton';
+import { Box, Collapsible } from "@chakra-ui/react"
+import { RiArrowDownSLine } from "react-icons/ri";
 
 import { API_URL } from '../../utils/api';
 
@@ -51,12 +53,18 @@ const SearchHandler: React.FC<SearchHandlerProps> = ({ onSelectEndpoint }) => {
   };
 
   return (
-    <div style={{display:'flex', flexDirection:'row', padding:'5px', alignItems:'center'}}>
-      <AverageSelector onChange={handleIntervalChange} />
-      <DataSelector onChange={handleDataTypeChange} />
-      <DateSelector onChange={handleDateChange} />
-      <SearchButton onSearch={handleSearch} />
-    </div>
+    
+      <Collapsible.Root>
+       <Collapsible.Trigger paddingY="3"><RiArrowDownSLine /></Collapsible.Trigger>
+         <Collapsible.Content>
+         <div style={{display:'flex', flexDirection:'row', padding:'5px', alignItems:'center'}}>
+            <AverageSelector onChange={handleIntervalChange} />
+            <DataSelector onChange={handleDataTypeChange} />
+            <DateSelector onChange={handleDateChange} />
+            <SearchButton onSearch={handleSearch} />
+        </div>
+         </Collapsible.Content>
+       </Collapsible.Root>
   );
 };
 

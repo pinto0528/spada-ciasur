@@ -12,20 +12,20 @@ interface ProjectCardProps {
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, image }) => {
   return (
-    <Card.Root width="320px">
-      <Card.Body gap="4">
+    <Card.Root width="20vw" minWidth='200px' >
+      <Card.Body gap="4" padding='0'>
         <Avatar 
-          src={image}  // Usar la prop 'image' para la imagen
-          name={title}  // Se puede usar el 'title' como nombre para el avatar
+          src={image} 
+          name={title} 
           size="full"
           shape="rounded"
           style={{ height: "40vh", width: "auto" }}
         />
-        <Card.Title>{title}</Card.Title>
-        <Card.Description>{description}</Card.Description>
+        <Card.Title ml='10px'>{title}</Card.Title>
+        <Card.Description ml='10px' mr='10px'>{description}</Card.Description>
       </Card.Body>
       <Card.Footer justifyContent="flex-end">
-        <Button variant="outline">More</Button>
+        <Button variant="outline" mt='15px'>More</Button>
       </Card.Footer>
     </Card.Root>
   )
