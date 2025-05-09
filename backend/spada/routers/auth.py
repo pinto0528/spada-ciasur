@@ -6,10 +6,10 @@ import os
 import jwt
 from dotenv import load_dotenv
 from requests import Session
-from app.models import User as UserModel
-from app.pydantic_models import LoginUser, EmailRequest, UserResponse
-from app.database import SessionLocal, get_db
-from app.admin import get_current_user
+from spada.app.models import User as UserModel
+from spada.app.pydantic_models import LoginUser, EmailRequest, UserResponse
+from spada.app.database import SessionLocal, get_db
+from spada.app.admin import get_current_user
 
 # Cargar las variables de entorno
 load_dotenv()

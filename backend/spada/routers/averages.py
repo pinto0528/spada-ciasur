@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Query, Depends
 from sqlalchemy.orm import Session
 from sqlalchemy import text
-from app.database import get_db  # Ajusta esta importación según la ubicación de tu función
+from spada.app.database import get_db
 from fastapi.responses import JSONResponse
 from typing import List, Dict, Any
 from datetime import datetime

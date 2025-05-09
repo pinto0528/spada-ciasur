@@ -11,7 +11,7 @@ import { Heading } from "@chakra-ui/react"
   const FAQ = () => {
     return (
       <section className="section">
-      <Heading style={{marginBottom: '20px'}}>FAQ's</Heading>
+      <Heading style={{marginBottom: '20px'}}>FAQs</Heading>
       <AccordionRoot collapsible style={{marginBottom: '2vh'}}>
         {items.map((item, index) => (
           <AccordionItem key={index} value={item.value}>

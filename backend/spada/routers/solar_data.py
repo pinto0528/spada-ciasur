@@ -1,9 +1,9 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from typing import List
-from app.models import SolarData as SqlAlchemy  # Modelo SQLAlchemy
-from app.pydantic_models import SolarData as Pydantic  # Modelo Pydantic
-from app.database import get_db  # función para obtener la sesión de la base de datos
+from spada.app.models import SolarData as SqlAlchemy  # Modelo SQLAlchemy
+from spada.app.pydantic_models import SolarData as Pydantic  # Modelo Pydantic
+from spada.app.database import get_db  # función para obtener la sesión de la base de datos
 from datetime import datetime
 
 router = APIRouter()

@@ -8,7 +8,7 @@ import os
 import jwt
 from dotenv import load_dotenv
 from requests import Session
-from app.models import User as UserModel
+from spada.app.models import User as UserModel
 
 # Cargar las variables del archivo .env
 load_dotenv()

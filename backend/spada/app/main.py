@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routers import auth, ionospheric_data, solar_data, averages
+from spada.routers import auth, ionospheric_data, solar_data, averages
 from fastapi.middleware.cors import CORSMiddleware
 from .database import engine, Base
 from .admin import create_admin_user
