@@ -3,16 +3,16 @@ export PYTHONPATH="$PWD/backend"
 set -e
 
 
-echo "2️⃣  Abrir pgAdmin4 (si está en tu PATH)"
+echo "$(date '+%Y-%m-%d %H:%M:%S') - Abrir pgAdmin4 (disabled)"
 # "D:\PINTOPC\Program Files\PostgreSQL\pgAdmin 4\runtime\pgAdmin4.exe" &
 
-echo "3️⃣  Arrancando API principal en http://127.0.0.1:8000"
+echo "$(date '+%Y-%m-%d %H:%M:%S') - Arrancando API principal en http://127.0.0.1:8000"
 uvicorn spada.app.main:app --reload --port 8000 &
 
-echo "4️⃣  Arrancando download-server en http://127.0.0.1:7000"
+echo "$(date '+%Y-%m-%d %H:%M:%S') - Arrancando download-server en http://127.0.0.1:7000"
 uvicorn spada.download_server.download_server:app --reload --port 7000 &
 
-echo "5️⃣  Arrancando frontend Next.js en http://localhost:6000"
+echo "$(date '+%Y-%m-%d %H:%M:%S') - Arrancando frontend Next.js en http://localhost:3000"
 pushd frontend/spada
 npm run dev & 
 popd
